@@ -6,6 +6,7 @@ import TheProceso         from './components/sections/TheProceso.vue'
 import TheGaleria         from './components/sections/TheGaleria.vue'
 import TheCta             from './components/sections/TheCta.vue'
 import TheFooter          from './components/sections/TheFooter.vue'
+import WhatsAppFloat      from './components/ui/WhatsAppFloat.vue'
 </script>
 
 <template>
@@ -16,4 +17,5 @@ import TheFooter          from './components/sections/TheFooter.vue'
   <TheGaleria />
   <TheCta />
   <TheFooter />
+  <WhatsAppFloat />
 </template>

@@ -1,4 +1,4 @@
-export const WHATSAPP_URL = 'https://wa.me/56989009814?text=Hola%2C%20me%20interesa%20una%20tinaja%20CALMA'
+export const WHATSAPP_URL = 'https://wa.me/56922538166?text=Hola%2C%20me%20interesa%20una%20tinaja%20CALMA'
 
 export const NAV_LINKS = [
   { label: 'Inicio',   href: '#inicio' },
@@ -64,7 +64,7 @@ export const GALERIA = {
   images: [
     { src: '/images/frente-gem-3.png', alt: 'Tinaja frontal' },
     { src: '/images/drones.png',       alt: 'Vista aérea' },
-    { src: '/images/derecha.png',      alt: 'Vista lateral' },
+    { src: '/images/close-up.png',     alt: 'Detalle de hormigón' },
     { src: '/images/parcela.png',      alt: 'Tinaja en parcela' },
   ],
 }
@@ -75,7 +75,7 @@ export const CTA = {
   subtitle: 'Cuéntanos tu espacio. Nosotros hacemos el resto.',
   cta:      'Solicitar consulta →',
   email:    'info@calma.es',
-  phone:    '+34 600 000 000',
+  phone:    '+56 9 2253 8166',
 }
 
 export const FOOTER = {

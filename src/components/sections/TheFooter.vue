@@ -12,7 +12,7 @@ const anchors = {
   <footer class="footer">
     <div class="footer__inner">
       <div class="footer__top">
-        <span class="footer__logo">{{ FOOTER.logo }}</span>
+        <img src="/images/logos/logo-blanco-calma.svg" alt="CALMA" class="footer__logo" />
         <nav class="footer__links">
           <a
             v-for="link in FOOTER.links"
@@ -24,7 +24,7 @@ const anchors = {
       </div>
       <div class="footer__bottom">
         <span class="footer__copy">{{ FOOTER.copyright }}</span>
-        <span class="footer__agency">{{ FOOTER.agency }}</span>
+        <span class="footer__dev">Sitio desarrollado por Bestiari · <a href="https://www.bestiari.es" target="_blank" rel="noopener noreferrer" class="footer__dev-link">www.bestiari.es</a></span>
       </div>
     </div>
   </footer>
@@ -49,10 +49,9 @@ const anchors = {
   gap: 24px;
 }
 .footer__logo {
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--c-text);
-  letter-spacing: 3px;
+  height: 100px;
+  width: auto;
+  object-fit: contain;
 }
 .footer__links { display: flex; gap: 32px; }
 .footer__link  { font-size: 12px; color: var(--c-muted); transition: color 0.2s; }
@@ -63,8 +62,10 @@ const anchors = {
   align-items: center;
   justify-content: space-between;
 }
-.footer__copy   { font-size: 11px; color: var(--c-b-dark); }
-.footer__agency { font-size: 11px; font-weight: 700; color: var(--c-faint); letter-spacing: 3px; }
+.footer__copy     { font-size: 11px; color: var(--c-b-dark); }
+.footer__dev      { font-size: 11px; color: var(--c-faint); }
+.footer__dev-link { color: var(--c-faint); text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
+.footer__dev-link:hover { color: var(--c-muted); }
 
 @media (min-width: 768px) {
   .footer__inner  { padding: 40px 80px; }

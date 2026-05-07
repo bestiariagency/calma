@@ -5,7 +5,10 @@ import AppButton      from '../ui/AppButton.vue'
 import { HERO, WHATSAPP_URL } from '../../data/content.js'
 import { useMobileMenu } from '../../composables/useMobileMenu.js'
 
+
 const { isOpen, toggle, close } = useMobileMenu()
+
+
 </script>
 
 <template>
@@ -17,17 +20,19 @@ const { isOpen, toggle, close } = useMobileMenu()
 
     <div class="hero__content">
       <!-- Mobile only: tag -->
-      <p class="hero__tag">{{ HERO.tag }}</p>
+      <!-- <p class="hero__tag">{{ HERO.tag }}</p> -->
 
       <!-- Mobile title -->
-      <h1 class="hero__title hero__title--mobile" v-html="HERO.titleMobile.replace(/\n/g, '<br>')" />
+      <!-- <h1 class="hero__title hero__title--mobile" v-html="HERO.titleMobile.replace(/\n/g, '<br>')" /> -->
       <!-- Desktop title -->
-      <h1 class="hero__title hero__title--desktop">{{ HERO.titleDesktop }}</h1>
-
+      <!-- <h1 class="hero__title hero__title--desktop">{{ HERO.titleDesktop }}</h1> -->
+       <div class="hero__logo-wrap">
+        <img src="/images/logos/logo-blanco-calma.svg" alt="Calma" class="hero__logo" />
+       </div>
       <!-- Mobile subtitle -->
-      <p class="hero__sub hero__sub--mobile" v-html="HERO.subtitleMobile.replace(/\n/g, '<br>')" />
+      <!-- <p class="hero__sub hero__sub--mobile" v-html="HERO.subtitleMobile.replace(/\n/g, '<br>')" /> -->
       <!-- Desktop subtitle -->
-      <p class="hero__sub hero__sub--desktop">{{ HERO.subtitle }}</p>
+      <!-- <p class="hero__sub hero__sub--desktop">{{ HERO.subtitle }}</p> -->
 
       <a :href="WHATSAPP_URL" target="_blank" rel="noopener noreferrer" class="hero__cta-wrap">
         <AppButton :label="HERO.cta" size="sm" wa class="hero__btn" />
@@ -73,11 +78,11 @@ const { isOpen, toggle, close } = useMobileMenu()
   letter-spacing: 4px;
 }
 .hero__title {
-  font-weight: 900;
+  font-weight: 100;
   color: var(--c-text);
   text-align: center;
 }
-.hero__title--mobile  { font-size: 48px; line-height: 0.95; }
+.hero__title--mobile  { font-size: 30px; line-height: 0.95; }
 .hero__title--desktop { display: none; }
 
 .hero__sub {
@@ -102,7 +107,7 @@ const { isOpen, toggle, close } = useMobileMenu()
   .hero__title--desktop {
     display: block;
     font-size: 88px;
-    font-weight: 800;
+    font-weight: 10;
     line-height: 1;
     max-width: 900px;
     text-align: center;

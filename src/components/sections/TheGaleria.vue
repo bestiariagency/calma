@@ -1,10 +1,14 @@
 <script setup>
-import SectionLabel from '../ui/SectionLabel.vue'
-import CarouselDots from '../ui/CarouselDots.vue'
-import { GALERIA }  from '../../data/content.js'
+import { ref } from 'vue'
+import SectionLabel    from '../ui/SectionLabel.vue'
+import CarouselDots    from '../ui/CarouselDots.vue'
+import GaleriaLightbox from '../ui/GaleriaLightbox.vue'
+import { GALERIA }     from '../../data/content.js'
 import { useCarousel } from '../../composables/useCarousel.js'
 
 const { current, containerRef, onScroll, goTo } = useCarousel(300, 12)
+
+const lightboxIndex = ref(null)
 </script>
 
 <template>
@@ -19,9 +23,10 @@ const { current, containerRef, onScroll, goTo } = useCarousel(300, 12)
       <div class="galeria__m-carousel-wrap">
         <div class="galeria__m-carousel" ref="containerRef" @scroll.passive="onScroll">
           <div
-            v-for="img in GALERIA.images"
+            v-for="(img, i) in GALERIA.images"
             :key="img.src"
             class="galeria__m-slide"
+            @click="lightboxIndex = i"
           >
             <img :src="img.src" :alt="img.alt" />
           </div>
@@ -38,25 +43,32 @@ const { current, containerRef, onScroll, goTo } = useCarousel(300, 12)
       <h2 class="galeria__d-title">{{ GALERIA.title }}</h2>
 
       <!-- Main large image -->
-      <div class="galeria__d-img-a">
-        <img src="/images/frente-gem-3.png" alt="Tinaja frontal" />
+      <div class="galeria__d-img-a galeria__d-img--click" @click="lightboxIndex = 0">
+        <img :src="GALERIA.images[0].src" :alt="GALERIA.images[0].alt" />
       </div>
 
       <!-- Two stacked images -->
-      <div class="galeria__d-img-b">
-        <img src="/images/drones.png" alt="Vista aérea" />
+      <div class="galeria__d-img-b galeria__d-img--click" @click="lightboxIndex = 1">
+        <img :src="GALERIA.images[1].src" :alt="GALERIA.images[1].alt" />
       </div>
-      <div class="galeria__d-img-c">
-        <img src="/images/close-up.png" alt="Detalle de hormigón" />
+      <div class="galeria__d-img-c galeria__d-img--click" @click="lightboxIndex = 2">
+        <img :src="GALERIA.images[2].src" :alt="GALERIA.images[2].alt" />
       </div>
 
       <!-- Quote box -->
       <div class="galeria__d-quote">
-        <p class="galeria__d-q-text">{{ GALERIA.quote.text }}</p>
-        <div class="galeria__d-q-line" />
-        <p class="galeria__d-q-author">{{ GALERIA.quote.author }}</p>
+        <img src="/images/logos/logo-blanco-calma.svg" alt="CALMA" class="galeria__d-q-logo" />
       </div>
     </div>
+
+    <p class="galeria__footnote">* Imágenes referenciales. Incluye escalera, banca interior y protección de cañerías. Pala y deck se venden por separado.</p>
+
+    <GaleriaLightbox
+      :images="GALERIA.images"
+      :index="lightboxIndex"
+      @close="lightboxIndex = null"
+      @update:index="lightboxIndex = $event"
+    />
 
   </section>
 </template>
@@ -102,6 +114,14 @@ const { current, containerRef, onScroll, goTo } = useCarousel(300, 12)
   border-radius: 4px;
   overflow: hidden;
   scroll-snap-align: start;
+  cursor: pointer;
+}
+.galeria__footnote {
+  font-size: 10px;
+  color: var(--c-white);
+  line-height: 1.6;
+  padding: 16px 28px 32px;
+  opacity: 0.5;
 }
 .galeria__m-dots { padding: 0 28px; }
 
@@ -110,12 +130,13 @@ const { current, containerRef, onScroll, goTo } = useCarousel(300, 12)
   .galeria__m { display: none; }
 
   .galeria {
+    min-height: 100vh;
     background: linear-gradient(to bottom, #000 31%, var(--c-darkest) 100%);
   }
   .galeria__d {
     display: block;
     position: relative;
-    min-height: 100vh;
+    height: 700px;
     max-width: 1440px;
     margin: 0 auto;
     overflow: hidden;
@@ -133,8 +154,22 @@ const { current, containerRef, onScroll, goTo } = useCarousel(300, 12)
     color: var(--c-text);
     line-height: 1;
   }
+  .galeria__footnote {
+    padding: 20px 80px 0;
+    max-width: 700px;
+  }
 
   /* Images */
+  .galeria__d-img--click {
+    cursor: pointer;
+  }
+  .galeria__d-img--click img {
+    transition: transform 0.4s ease;
+  }
+  .galeria__d-img--click:hover img {
+    transform: scale(1.03);
+  }
+
   .galeria__d-img-a {
     position: absolute;
     left: 80px; top: 160px;
@@ -163,19 +198,16 @@ const { current, containerRef, onScroll, goTo } = useCarousel(300, 12)
     left: 972px; top: 160px;
     width: 388px; height: 520px;
     background: var(--c-dark);
-    padding: 40px 36px;
+    padding: 20px 16px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     gap: 20px;
   }
-  .galeria__d-q-text {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--c-text);
-    line-height: 1.5;
+  .galeria__d-q-logo {
+    width: 250px;
+    height: auto;
+    object-fit: contain;
   }
-  .galeria__d-q-line  { width: 40px; height: 2px; background: var(--c-accent); }
-  .galeria__d-q-author{ font-size: 12px; color: var(--c-faint); }
 }
 </style>

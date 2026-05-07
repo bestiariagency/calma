@@ -11,7 +11,7 @@ defineEmits(['toggleMenu'])
 <template>
   <nav class="nav">
     <div class="nav__inner">
-      <a href="#inicio" class="nav__logo">CALMA</a>
+      <!-- <a href="#inicio" class="nav__logo">CALMA</a> -->
 
       <!-- Desktop links -->
       <div class="nav__links">
