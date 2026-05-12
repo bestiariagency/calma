@@ -47,6 +47,7 @@ import { CTA, WHATSAPP_URL } from '../../data/content.js'
   position: relative;
   overflow: hidden;
   background: var(--c-darkest);
+  min-height: 100vh;
 }
 .cta__bg {
   position: absolute;
@@ -72,7 +73,7 @@ import { CTA, WHATSAPP_URL } from '../../data/content.js'
   gap: 28px;
   text-align: center;
   padding: 60px 28px;
-  min-height: 460px;
+  min-height: 100vh;
 }
 .cta__m-title {
   font-size: 54px;

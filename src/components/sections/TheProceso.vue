@@ -59,7 +59,7 @@ import { PROCESO }  from '../../data/content.js'
 </template>
 
 <style scoped>
-.proceso { background: var(--c-darkest); }
+.proceso { background: var(--c-darkest); min-height: 100vh; }
 
 /* ─── Mobile ─────────────────────────────────────────── */
 .proceso__d { display: none; }
@@ -67,6 +67,8 @@ import { PROCESO }  from '../../data/content.js'
 .proceso__m {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
   padding: 48px 28px;
 }
 .proceso__m-spacer { height: 20px; }

@@ -81,6 +81,10 @@ const { current, containerRef, onScroll, goTo } = useCarousel(290, 16)
   background: var(--c-mid);
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* ─── Mobile ─────────────────────────────────────────── */

@@ -27,6 +27,8 @@ import { QUE_ES }  from '../../data/content.js'
   background: var(--c-dark);
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 /* Mobile: image at top */

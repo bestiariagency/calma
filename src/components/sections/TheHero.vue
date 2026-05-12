@@ -46,7 +46,7 @@ const { isOpen, toggle, close } = useMobileMenu()
 <style scoped>
 .hero {
   position: relative;
-  height: 680px;
+  min-height: 100vh;
   background: var(--c-mid);
   overflow: hidden;
 }

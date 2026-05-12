@@ -74,7 +74,7 @@ const lightboxIndex = ref(null)
 </template>
 
 <style scoped>
-.galeria { background: var(--c-darkest); }
+.galeria { background: var(--c-darkest); min-height: 100vh; }
 
 /* ─── Mobile ─────────────────────────────────────────── */
 .galeria__d { display: none; }
@@ -82,6 +82,8 @@ const lightboxIndex = ref(null)
 .galeria__m {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
   padding: 48px 0 48px 28px;
   gap: 28px;
 }
@@ -110,7 +112,7 @@ const lightboxIndex = ref(null)
 .galeria__m-slide {
   flex-shrink: 0;
   width: 300px;
-  height: 300px;
+  height: 45vh;
   border-radius: 4px;
   overflow: hidden;
   scroll-snap-align: start;
