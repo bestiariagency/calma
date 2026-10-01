@@ -7,26 +7,9 @@ defineProps({
 </script>
 
 <template>
-  <div class="fc">
-    <span class="fc__num">{{ number }}</span>
-    <p class="fc__title">{{ title }}</p>
-    <p class="fc__desc">{{ description }}</p>
+  <div class="flex w-[290px] shrink-0 flex-col gap-[14px] rounded-[4px] border border-b-deep bg-dark p-6">
+    <span class="text-[12px] font-bold tracking-[3px] text-accent">{{ number }}</span>
+    <p class="text-[18px] leading-[1.1] font-extrabold text-text">{{ title }}</p>
+    <p class="text-[14px] leading-[1.5] text-muted">{{ description }}</p>
   </div>
 </template>
-
-<style scoped>
-.fc {
-  flex-shrink: 0;
-  width: 290px;
-  background: var(--c-dark);
-  border: 1px solid var(--c-b-deep);
-  border-radius: 4px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.fc__num   { font-size: 12px; font-weight: 700; color: var(--c-accent); letter-spacing: 3px; }
-.fc__title { font-size: 18px; font-weight: 800; color: var(--c-text); line-height: 1.1; }
-.fc__desc  { font-size: 14px; color: var(--c-muted); line-height: 1.5; }
-</style>

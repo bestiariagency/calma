@@ -93,7 +93,7 @@ El paso final de toda feature es invocar **Zorro-Foxter**. Detalle en `.ai/orche
 | Revisión de permisos anon/admin y policies (veto) | **Leona-Lia** (`leona-lia`) | `.ai/security-rls.md` |
 | Simplificar/deduplicar/acotar tras cada feature | **Zorro-Foxter** (`zorro-foxter`) | `.ai/refactor-quality.md` |
 | Netlify, envs, secrets, deploy | **Osset-OP** (`osset-op`) | `.ai/devops.md` |
-| Diseño en Pencil, tokens, fidelidad visual (veto visual) | **Búho-Pixel** (`buho-pixel`) | `.ai/design.md` |
+| Specs UI/UX y evaluación de calidad de diseño (responsive, contraste, a11y; veto visual), junto a frontend | **Búho-Pixel** (`buho-pixel`) | `.ai/design.md` |
 | SEO técnico, meta/OG, schema.org, analítica, conversión | **Lince-Max** (`lince-max`) | `.ai/marketing-seo.md` |
 | Textos comerciales, tono de marca, microcopy | **Loro-Lola** (`loro-lola`) | `.ai/copy.md` |
 | Descubrir/buscar archivos en el repo | **Explore** (built-in) | — |

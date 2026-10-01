@@ -5,118 +5,37 @@ import AppButton      from '../ui/AppButton.vue'
 import { HERO, WHATSAPP_URL } from '../../data/content.js'
 import { useMobileMenu } from '../../composables/useMobileMenu.js'
 
-
 const { isOpen, toggle, close } = useMobileMenu()
-
-
 </script>
 
 <template>
-  <section id="inicio" class="hero">
-    <img class="hero__bg" src="/images/hero-dia.png" alt="Tinaja artesanal de hormigón en jardín" />
-    <div class="hero__overlay" />
+  <section id="inicio" class="relative min-h-screen overflow-hidden bg-mid">
+    <img class="absolute inset-0" src="/images/hero-dia.png" alt="Tinaja artesanal de hormigón en jardín" />
+    <div class="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-mid)_30%,transparent_100%)] md:bg-none md:bg-black/55" />
 
     <TheNav :isMenuOpen="isOpen" @toggleMenu="toggle" />
 
-    <div class="hero__content">
+    <div class="absolute inset-0 flex flex-col items-center justify-center gap-6 px-6 text-center">
       <!-- Mobile only: tag -->
-      <!-- <p class="hero__tag">{{ HERO.tag }}</p> -->
+      <!-- <p class="text-[9px] font-bold text-accent tracking-[4px] md:hidden">{{ HERO.tag }}</p> -->
 
       <!-- Mobile title -->
-      <!-- <h1 class="hero__title hero__title--mobile" v-html="HERO.titleMobile.replace(/\n/g, '<br>')" /> -->
+      <!-- <h1 class="font-thin text-text text-center text-[30px] leading-[0.95] md:hidden" v-html="HERO.titleMobile.replace(/\n/g, '<br>')" /> -->
       <!-- Desktop title -->
-      <!-- <h1 class="hero__title hero__title--desktop">{{ HERO.titleDesktop }}</h1> -->
-       <div class="hero__logo-wrap">
-        <img src="/images/logos/logo-blanco-calma.svg" alt="Calma" class="hero__logo" />
-       </div>
+      <!-- <h1 class="hidden font-thin text-text text-center md:block md:text-[88px] md:font-[10] md:leading-none md:max-w-[900px]">{{ HERO.titleDesktop }}</h1> -->
+      <div class="motion-ok:animate-hero-logo">
+        <img src="/images/logos/logo-blanco-calma.svg" alt="Calma" />
+      </div>
       <!-- Mobile subtitle -->
-      <!-- <p class="hero__sub hero__sub--mobile" v-html="HERO.subtitleMobile.replace(/\n/g, '<br>')" /> -->
+      <!-- <p class="text-[22px] text-warm leading-[1.3] md:hidden" v-html="HERO.subtitleMobile.replace(/\n/g, '<br>')" /> -->
       <!-- Desktop subtitle -->
-      <!-- <p class="hero__sub hero__sub--desktop">{{ HERO.subtitle }}</p> -->
+      <!-- <p class="hidden text-[22px] text-warm leading-[1.3] md:block md:text-white">{{ HERO.subtitle }}</p> -->
 
-      <a :href="WHATSAPP_URL" target="_blank" rel="noopener noreferrer" class="hero__cta-wrap">
-        <AppButton :label="HERO.cta" size="sm" wa class="hero__btn" />
+      <a :href="WHATSAPP_URL" target="_blank" rel="noopener noreferrer" class="inline-flex motion-ok:animate-hero-cta">
+        <AppButton :label="HERO.cta" size="sm-md" wa />
       </a>
     </div>
 
     <TheMobileMenu :isOpen="isOpen" @close="close" />
   </section>
 </template>
-
-<style scoped>
-.hero {
-  position: relative;
-  min-height: 100vh;
-  background: var(--c-mid);
-  overflow: hidden;
-}
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  object-position: center;
-}
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, var(--c-mid) 30%, transparent 100%);
-}
-.hero__content {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-  padding: 0 24px;
-  text-align: center;
-}
-.hero__tag {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--c-accent);
-  letter-spacing: 4px;
-}
-.hero__title {
-  font-weight: 100;
-  color: var(--c-text);
-  text-align: center;
-}
-.hero__title--mobile  { font-size: 30px; line-height: 0.95; }
-.hero__title--desktop { display: none; }
-
-.hero__sub {
-  font-size: 22px;
-  color: var(--c-warm);
-  line-height: 1.3;
-}
-.hero__sub--desktop { display: none; }
-
-.hero__cta-wrap { display: inline-flex; }
-
-@media (min-width: 768px) {
-  .hero {
-    min-height: 100vh;
-  }
-  .hero__overlay {
-    background: rgba(0, 0, 0, 0.55);
-  }
-  .hero__tag { display: none; }
-
-  .hero__title--mobile  { display: none; }
-  .hero__title--desktop {
-    display: block;
-    font-size: 88px;
-    font-weight: 10;
-    line-height: 1;
-    max-width: 900px;
-    text-align: center;
-  }
-  .hero__sub--mobile  { display: none; }
-  .hero__sub--desktop {
-    display: block;
-    color: var(--c-white);
-  }
-  .hero__btn { font-size: 15px; padding: 16px 44px; }
-}
-</style>

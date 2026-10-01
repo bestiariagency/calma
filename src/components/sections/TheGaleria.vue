@@ -9,59 +9,75 @@ import { useCarousel } from '../../composables/useCarousel.js'
 const { current, containerRef, onScroll, goTo } = useCarousel(300, 12)
 
 const lightboxIndex = ref(null)
+
+// Mosaico desktop: posición/tamaño de cada imagen clicable (índice = imagen de GALERIA.images)
+const DESKTOP_MOSAIC_SLOTS = [
+  'left-20 top-[160px] h-[520px] w-[480px]',     // grande principal
+  'left-[576px] top-[160px] h-[254px] w-[380px]', // apilada superior
+  'left-[576px] top-[426px] h-[254px] w-[380px]', // apilada inferior
+]
+// Entrada del mosaico y la caja del logo: arrancan tras el título, con su propio stagger
+const MOSAIC_REVEAL = '[--reveal-offset:var(--motion-follow-short)] [--reveal-step:var(--motion-stagger-mosaic)]'
 </script>
 
 <template>
-  <section id="galeria" class="galeria">
+  <section id="galeria" class="min-h-screen bg-darkest md:bg-[linear-gradient(to_bottom,#000_31%,var(--color-darkest)_100%)]">
 
     <!-- ─── Mobile ────────────────────────────────────── -->
-    <div class="galeria__m">
-      <div class="galeria__m-header">
-        <SectionLabel :text="GALERIA.label" />
-        <h2 class="galeria__m-title">{{ GALERIA.title }}</h2>
+    <div v-reveal.each class="flex min-h-screen flex-col justify-center gap-[28px] py-12 pl-[28px] md:hidden">
+      <div class="flex flex-col gap-3 pr-[28px]">
+        <SectionLabel data-reveal="text" :text="GALERIA.label" />
+        <h2 data-reveal="text" class="text-[34px] font-extrabold text-text leading-[1.05]">{{ GALERIA.title }}</h2>
       </div>
-      <div class="galeria__m-carousel-wrap">
-        <div class="galeria__m-carousel" ref="containerRef" @scroll.passive="onScroll">
+      <div data-reveal="image" class="overflow-hidden reveal-from-left">
+        <div ref="containerRef" class="scrollbar-none flex snap-x snap-mandatory gap-3 overflow-x-auto" @scroll.passive="onScroll">
           <div
             v-for="(img, i) in GALERIA.images"
             :key="img.src"
-            class="galeria__m-slide"
+            class="h-[45vh] w-[300px] shrink-0 cursor-pointer snap-start overflow-hidden rounded-[4px]"
             @click="lightboxIndex = i"
           >
-            <img :src="img.src" :alt="img.alt" />
+            <img data-reveal="zoom" :src="img.src" :alt="img.alt" />
           </div>
         </div>
       </div>
-      <div class="galeria__m-dots">
+      <div data-reveal="fade" class="px-[28px]">
         <CarouselDots :total="GALERIA.images.length" :current="current" @go="goTo" />
       </div>
     </div>
 
     <!-- ─── Desktop ───────────────────────────────────── -->
-    <div class="galeria__d">
-      <SectionLabel :text="GALERIA.label" class="galeria__d-label" />
-      <h2 class="galeria__d-title">{{ GALERIA.title }}</h2>
+    <div v-reveal class="relative mx-auto hidden h-[700px] max-w-[1440px] overflow-hidden md:block">
+      <SectionLabel data-reveal="text" :text="GALERIA.label" class="absolute top-[56px] left-20" />
+      <h2 data-reveal="text" class="absolute top-20 left-20 text-[52px] font-extrabold text-text leading-none">{{ GALERIA.title }}</h2>
 
-      <!-- Main large image -->
-      <div class="galeria__d-img-a galeria__d-img--click" @click="lightboxIndex = 0">
-        <img :src="GALERIA.images[0].src" :alt="GALERIA.images[0].alt" />
-      </div>
-
-      <!-- Two stacked images -->
-      <div class="galeria__d-img-b galeria__d-img--click" @click="lightboxIndex = 1">
-        <img :src="GALERIA.images[1].src" :alt="GALERIA.images[1].alt" />
-      </div>
-      <div class="galeria__d-img-c galeria__d-img--click" @click="lightboxIndex = 2">
-        <img :src="GALERIA.images[2].src" :alt="GALERIA.images[2].alt" />
+      <!-- Mosaico: imagen grande + dos apiladas (zoom suave al hover) -->
+      <div
+        v-for="(slot, i) in DESKTOP_MOSAIC_SLOTS"
+        :key="GALERIA.images[i].src"
+        data-reveal="image"
+        :data-reveal-i="i"
+        class="group absolute cursor-pointer overflow-hidden rounded-[3px]"
+        :class="[slot, MOSAIC_REVEAL]"
+        @click="lightboxIndex = i"
+      >
+        <!-- Zoom de entrada en un envoltorio: la img conserva su transición de hover -->
+        <div data-reveal="zoom" class="size-full">
+          <img
+            class="transition-transform duration-400 ease-[ease] group-hover:transform-[scale(1.03)]"
+            :src="GALERIA.images[i].src"
+            :alt="GALERIA.images[i].alt"
+          />
+        </div>
       </div>
 
       <!-- Quote box -->
-      <div class="galeria__d-quote">
-        <img src="/images/logos/logo-blanco-calma.svg" alt="CALMA" class="galeria__d-q-logo" />
+      <div data-reveal="text" :data-reveal-i="DESKTOP_MOSAIC_SLOTS.length" :class="MOSAIC_REVEAL" class="absolute top-[160px] left-[972px] flex h-[520px] w-[388px] flex-col justify-end gap-[20px] bg-dark px-4 py-[20px]">
+        <img src="/images/logos/logo-blanco-calma.svg" alt="CALMA" class="w-[250px] h-auto object-contain" />
       </div>
     </div>
 
-    <p class="galeria__footnote">* Imágenes referenciales. Incluye escalera, banca interior y protección de cañerías. Pala y deck se venden por separado.</p>
+    <p v-reveal data-reveal="fade" class="px-[28px] pt-4 pb-8 text-[10px] leading-[1.6] text-white opacity-50 md:max-w-[700px] md:px-20 md:pt-[20px] md:pb-0">* Imágenes referenciales. Incluye escalera, banca interior y protección de cañerías. Pala y deck se venden por separado.</p>
 
     <GaleriaLightbox
       :images="GALERIA.images"
@@ -72,144 +88,3 @@ const lightboxIndex = ref(null)
 
   </section>
 </template>
-
-<style scoped>
-.galeria { background: var(--c-darkest); min-height: 100vh; }
-
-/* ─── Mobile ─────────────────────────────────────────── */
-.galeria__d { display: none; }
-
-.galeria__m {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 48px 0 48px 28px;
-  gap: 28px;
-}
-.galeria__m-header {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-right: 28px;
-}
-.galeria__m-title {
-  font-size: 34px;
-  font-weight: 800;
-  color: var(--c-text);
-  line-height: 1.05;
-}
-.galeria__m-carousel-wrap { overflow: hidden; }
-.galeria__m-carousel {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.galeria__m-carousel::-webkit-scrollbar { display: none; }
-.galeria__m-slide {
-  flex-shrink: 0;
-  width: 300px;
-  height: 45vh;
-  border-radius: 4px;
-  overflow: hidden;
-  scroll-snap-align: start;
-  cursor: pointer;
-}
-.galeria__footnote {
-  font-size: 10px;
-  color: var(--c-white);
-  line-height: 1.6;
-  padding: 16px 28px 32px;
-  opacity: 0.5;
-}
-.galeria__m-dots { padding: 0 28px; }
-
-/* ─── Desktop ────────────────────────────────────────── */
-@media (min-width: 768px) {
-  .galeria__m { display: none; }
-
-  .galeria {
-    min-height: 100vh;
-    background: linear-gradient(to bottom, #000 31%, var(--c-darkest) 100%);
-  }
-  .galeria__d {
-    display: block;
-    position: relative;
-    height: 700px;
-    max-width: 1440px;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  .galeria__d-label {
-    position: absolute;
-    top: 56px; left: 80px;
-  }
-  .galeria__d-title {
-    position: absolute;
-    top: 80px; left: 80px;
-    font-size: 52px;
-    font-weight: 800;
-    color: var(--c-text);
-    line-height: 1;
-  }
-  .galeria__footnote {
-    padding: 20px 80px 0;
-    max-width: 700px;
-  }
-
-  /* Images */
-  .galeria__d-img--click {
-    cursor: pointer;
-  }
-  .galeria__d-img--click img {
-    transition: transform 0.4s ease;
-  }
-  .galeria__d-img--click:hover img {
-    transform: scale(1.03);
-  }
-
-  .galeria__d-img-a {
-    position: absolute;
-    left: 80px; top: 160px;
-    width: 480px; height: 520px;
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .galeria__d-img-b {
-    position: absolute;
-    left: 576px; top: 160px;
-    width: 380px; height: 254px;
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .galeria__d-img-c {
-    position: absolute;
-    left: 576px; top: 426px;
-    width: 380px; height: 254px;
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  /* Quote box */
-  .galeria__d-quote {
-    position: absolute;
-    left: 972px; top: 160px;
-    width: 388px; height: 520px;
-    background: var(--c-dark);
-    padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 20px;
-  }
-  .galeria__d-q-logo {
-    width: 250px;
-    height: auto;
-    object-fit: contain;
-  }
-}
-</style>

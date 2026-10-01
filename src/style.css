@@ -1,39 +1,129 @@
-*, *::before, *::after { box-sizing: border-box; }
-* { margin: 0; padding: 0; }
+@import "tailwindcss";
 
-:root {
-  --c-darkest: #0E0C09;
-  --c-dark:    #1E1A15;
-  --c-mid:     #15120E;
-  --c-b-deep:  #2A2520;
-  --c-b-dark:  #3A3530;
-  --c-faint:   #5A5550;
-  --c-muted:   #7A7570;
-  --c-accent:  #C17F4A;
-  --c-warm:    #C4A882;
-  --c-text:    #F0EDE8;
-  --c-white:   #ffffff;
-  --font: 'JetBrains Mono', monospace;
+@theme {
+  --color-darkest: #0E0C09;
+  --color-dark:    #1E1A15;
+  --color-mid:     #15120E;
+  --color-b-deep:  #2A2520;
+  --color-b-dark:  #3A3530;
+  --color-faint:   #5A5550;
+  --color-muted:   #7A7570;
+  --color-accent:  #C17F4A;
+  --color-warm:    #C4A882;
+  --color-text:    #F0EDE8;
+  --color-white:   #ffffff;
+  --color-whatsapp: #25D366;
+  --font-mono:     'JetBrains Mono', monospace;
+  /* 1200px del diseño en rem: Tailwind ordena las media queries por valor y solo compara
+     breakpoints en la misma unidad que los de serie (rem). */
+  --breakpoint-desktop: 75rem;
+
+  /* Motion (spec de Búho-Pixel): aparición al hacer scroll + entrada del hero */
+  --ease-calma: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-rise: 16px;            /* subida del texto ≥ md */
+  --motion-rise-sm: 12px;         /* subida del texto < md */
+  --motion-rise-footer: 8px;
+  --motion-text: 700ms;
+  --motion-image: 1100ms;         /* máscara clip-path */
+  --motion-zoom: 1500ms;          /* zoom-out de la imagen interior */
+  --motion-zoom-from: 1.06;
+  --motion-bar: 600ms;            /* barras cobre (scale-x) */
+  --motion-line: 1200ms;          /* línea de tiempo de Proceso (scale-y) */
+  --motion-footer: 500ms;
+  --motion-stagger: 90ms;
+  --motion-stagger-max: 5;        /* pasos: el hijo nº6+ usa el retardo del 5º */
+  --motion-stagger-mosaic: 120ms;
+  --motion-follow: 200ms;         /* texto que sigue a la foto (QueEs desktop) */
+  --motion-follow-short: 150ms;   /* pasos de Proceso y mosaico de Galería */
+  --motion-hero: 900ms;
+  --motion-hero-logo-delay: 120ms;
+  --motion-hero-cta-delay: 300ms;
+  --animate-hero-logo: hero-in var(--motion-hero) var(--ease-calma) var(--motion-hero-logo-delay) backwards;
+  --animate-hero-cta: hero-in var(--motion-hero) var(--ease-calma) var(--motion-hero-cta-delay) backwards;
+
+  /* Solo `from`: el destino es el estado base (animation:none ⇒ visible). Opacidad 0.01 y no 0:
+     el logo ES el LCP (Chrome no cuenta la foto a pantalla completa) y con opacity:0 Chrome lo
+     registra al terminar la animación (~1,1s); con 0.01 cuenta desde el primer frame. */
+  @keyframes hero-in {
+    from { opacity: 0.01; translate: 0 var(--motion-rise-sm); }
+  }
 }
+
+/* html.motion-ok lo pone src/directives/reveal.js (hay IO y no hay prefers-reduced-motion). */
+@custom-variant motion-ok (&:where(.motion-ok *));
+@custom-variant reveal-pending (&:where(.motion-ok *):not([data-revealed]));
+
+/* Dirección de la máscara de data-reveal="image" (por defecto abajo→arriba). */
+@utility reveal-from-left { --reveal-clip: 0 100% 0 0; }
+@utility reveal-from-right { --reveal-clip: 0 0 0 100%; }
 
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: var(--font);
-  background: var(--c-darkest);
-  color: var(--c-text);
+  font-family: var(--font-mono);
+  background: var(--color-darkest);
+  color: var(--color-text);
+  line-height: normal; /* diseño calculado con line-height UA, no el 1.5 de Preflight */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* Ajustes sobre Preflight. En @layer base: sin capa ganarían a cualquier utilidad. */
+@layer base {
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  button { cursor: pointer; }
 }
 
-button { cursor: pointer; font-family: var(--font); border: none; background: none; padding: 0; }
-a { text-decoration: none; color: inherit; }
+/* Oculta la barra de scroll de los carruseles móviles (sin equivalente nativo en Tailwind). */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
 #app { overflow-x: hidden; }
+
+/* CSS fallback: Tailwind no puede asociar un juego de utilidades a un valor de atributo
+   (data-reveal="…") sin repetirlas en cada componente; se aplican aquí con @apply y tokens.
+   Estado base = FINAL. El oculto solo bajo html.motion-ok hasta que v-reveal pone data-revealed.
+   Se anima solo opacity/translate/scale/clip-path (compositor, CLS 0) con transiciones:
+   con transition:none el elemento queda en su estado final. */
+@layer utilities {
+  [data-reveal] {
+    --reveal-delay: calc(var(--reveal-offset, 0ms) + min(var(--reveal-i, 0), var(--motion-stagger-max)) * var(--reveal-step, var(--motion-stagger)));
+    @apply motion-ok:ease-calma motion-ok:delay-(--reveal-delay);
+  }
+  [data-reveal='text'] {
+    @apply motion-ok:transition-[opacity,translate] motion-ok:duration-(--motion-text)
+      reveal-pending:opacity-0 reveal-pending:translate-y-(--motion-rise-sm) md:reveal-pending:translate-y-(--motion-rise);
+  }
+  [data-reveal='text-soft'] {
+    @apply motion-ok:transition-[opacity,translate] motion-ok:duration-(--motion-footer)
+      reveal-pending:opacity-0 reveal-pending:translate-y-(--motion-rise-footer);
+  }
+  [data-reveal='fade'] {
+    @apply motion-ok:transition-opacity motion-ok:duration-(--motion-text) reveal-pending:opacity-0;
+  }
+  [data-reveal='bar'] {
+    @apply motion-ok:origin-left motion-ok:transition-[opacity,scale] motion-ok:duration-(--motion-bar)
+      reveal-pending:scale-x-0 reveal-pending:opacity-0;
+  }
+  [data-reveal='line'] {
+    @apply motion-ok:origin-top motion-ok:transition-[scale] motion-ok:duration-(--motion-line) reveal-pending:scale-y-0;
+  }
+  /* Final inset(-1px), no inset(0): con posiciones fraccionarias inset(0) recorta 1px de borde
+     distinto que overflow-hidden; así el recorte final lo sigue haciendo el wrapper. */
+  [data-reveal='image'] {
+    @apply motion-ok:transition-[clip-path] motion-ok:duration-(--motion-image) motion-ok:[clip-path:inset(-1px)]
+      reveal-pending:[clip-path:inset(var(--reveal-clip,100%_0_0_0))];
+  }
+  [data-reveal='zoom'] {
+    @apply motion-ok:transition-[scale] motion-ok:duration-(--motion-zoom) reveal-pending:scale-(--motion-zoom-from);
+  }
+}

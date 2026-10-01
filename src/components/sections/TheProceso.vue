@@ -1,55 +1,59 @@
 <script setup>
 import SectionLabel from '../ui/SectionLabel.vue'
 import { PROCESO }  from '../../data/content.js'
+
+const isLastStep = i => i === PROCESO.steps.length - 1
 </script>
 
 <template>
-  <section id="proceso" class="proceso">
+  <section id="proceso" class="bg-darkest min-h-screen">
 
     <!-- ─── Mobile ────────────────────────────────────── -->
-    <div class="proceso__m">
-      <SectionLabel :text="PROCESO.label" />
-      <div class="proceso__m-spacer" />
+    <div v-reveal.each class="flex min-h-screen flex-col justify-center px-[28px] py-12 md:hidden">
+      <SectionLabel data-reveal="text" :text="PROCESO.label" />
+      <div class="h-[20px]" />
       <div
         v-for="(step, i) in PROCESO.steps"
         :key="step.title"
-        class="proceso__m-step"
-        :class="{ 'proceso__m-step--last': i === PROCESO.steps.length - 1 }"
+        data-reveal="text"
+        class="flex gap-[20px]"
+        :class="{ 'mb-[28px] border-b border-b-b-deep pb-[28px]': !isLastStep(i) }"
       >
-        <div class="proceso__m-timeline">
-          <div class="proceso__m-dot" />
-          <div v-if="i < PROCESO.steps.length - 1" class="proceso__m-line" />
+        <div class="flex flex-col items-center w-6 shrink-0">
+          <div class="size-[10px] rounded-[50%] bg-accent shrink-0" />
+          <div v-if="!isLastStep(i)" class="mt-1 min-h-[80px] w-px flex-1 bg-b-deep" />
         </div>
-        <div class="proceso__m-text">
-          <span class="proceso__m-num">{{ step.number }}</span>
-          <h3 class="proceso__m-title">{{ step.title }}</h3>
-          <p class="proceso__m-desc">{{ step.description }}</p>
+        <div class="flex flex-col gap-2 flex-1">
+          <span class="text-[9px] text-accent tracking-[3px]">{{ step.number }}</span>
+          <h3 class="text-[24px] font-extrabold text-text">{{ step.title }}</h3>
+          <p class="text-[13px] text-muted leading-[1.5] max-w-[270px]">{{ step.description }}</p>
         </div>
       </div>
     </div>
 
     <!-- ─── Desktop ───────────────────────────────────── -->
-    <div class="proceso__d">
+    <div v-reveal class="relative hidden min-h-screen overflow-hidden md:block">
       <!-- Right: image + overlay -->
-      <div class="proceso__d-img-wrap">
-        <img src="/images/derecha.png" alt="Tinaja de hormigón instalada" />
-        <div class="proceso__d-img-overlay" />
+      <div data-reveal="image" data-reveal-i="0" class="absolute inset-y-0 right-0 w-[720px] overflow-hidden reveal-from-right">
+        <img data-reveal="zoom" src="/images/derecha.png" alt="Tinaja de hormigón instalada" />
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,var(--color-darkest)_11%,rgba(0,0,0,0.77)_50%,transparent_100%)]" />
       </div>
 
       <!-- Left: content -->
-      <div class="proceso__d-left">
-        <span class="proceso__d-label">PROCESO</span>
-        <div class="proceso__d-steps">
-          <div class="proceso__d-line" />
+      <div v-reveal.each class="absolute inset-y-0 left-0 flex w-[720px] flex-col justify-center pl-[144px]">
+        <span data-reveal="fade" class="absolute top-1/2 left-[44px] origin-center transform-[translateY(-50%)_rotate(-90deg)] text-[10px] font-bold tracking-[5px] whitespace-nowrap text-accent">PROCESO</span>
+        <div class="relative flex flex-col gap-[72px]">
+          <div data-reveal="line" class="absolute left-[-32px] top-[26px] bottom-0 w-px bg-b-deep" />
           <div
             v-for="step in PROCESO.steps"
             :key="step.title"
-            class="proceso__d-step"
+            data-reveal="text"
+            class="relative w-[520px] flex flex-col gap-[10px] [--reveal-offset:var(--motion-follow-short)]"
           >
-            <div class="proceso__d-dot" />
-            <span class="proceso__d-num">{{ step.number }}</span>
-            <h3 class="proceso__d-title">{{ step.title }}</h3>
-            <p class="proceso__d-desc">{{ step.description }}</p>
+            <div class="absolute left-[-37px] top-[26px] size-[10px] rounded-[50%] bg-accent" />
+            <span class="text-[10px] font-bold text-accent tracking-[3px]">{{ step.number }}</span>
+            <h3 class="text-[36px] font-extrabold text-text leading-none">{{ step.title }}</h3>
+            <p class="text-[15px] text-muted leading-[1.6] max-w-[480px]">{{ step.description }}</p>
           </div>
         </div>
       </div>
@@ -57,142 +61,3 @@ import { PROCESO }  from '../../data/content.js'
 
   </section>
 </template>
-
-<style scoped>
-.proceso { background: var(--c-darkest); min-height: 100vh; }
-
-/* ─── Mobile ─────────────────────────────────────────── */
-.proceso__d { display: none; }
-
-.proceso__m {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 48px 28px;
-}
-.proceso__m-spacer { height: 20px; }
-.proceso__m-step {
-  display: flex;
-  gap: 20px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--c-b-deep);
-  margin-bottom: 28px;
-}
-.proceso__m-step--last {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-.proceso__m-timeline {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 24px;
-  flex-shrink: 0;
-}
-.proceso__m-dot {
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--c-accent);
-  flex-shrink: 0;
-}
-.proceso__m-line {
-  flex: 1;
-  width: 1px;
-  background: var(--c-b-deep);
-  margin-top: 4px;
-  min-height: 80px;
-}
-.proceso__m-text { display: flex; flex-direction: column; gap: 8px; flex: 1; }
-.proceso__m-num  { font-size: 9px; color: var(--c-accent); letter-spacing: 3px; }
-.proceso__m-title{ font-size: 24px; font-weight: 800; color: var(--c-text); }
-.proceso__m-desc { font-size: 13px; color: var(--c-muted); line-height: 1.5; max-width: 270px; }
-
-/* ─── Desktop ────────────────────────────────────────── */
-@media (min-width: 768px) {
-  .proceso__m { display: none; }
-  .proceso__d {
-    display: block;
-    position: relative;
-    min-height: 100vh;
-    overflow: hidden;
-  }
-
-  /* Right: image + gradient overlay */
-  .proceso__d-img-wrap {
-    position: absolute;
-    right: 0; top: 0; bottom: 0;
-    width: 720px;
-    overflow: hidden;
-  }
-  .proceso__d-img-wrap img { object-position: center; }
-  .proceso__d-img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, var(--c-darkest) 11%, rgba(0,0,0,0.77) 50%, transparent 100%);
-  }
-
-  /* Left content */
-  .proceso__d-left {
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 720px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 144px;
-  }
-
-  /* Rotated "PROCESO" label */
-  .proceso__d-label {
-    position: absolute;
-    left: 44px; top: 50%;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--c-accent);
-    letter-spacing: 5px;
-    transform: translateY(-50%) rotate(-90deg);
-    transform-origin: center center;
-    white-space: nowrap;
-  }
-
-  /* Steps group — flow layout so justify-content: center works */
-  .proceso__d-steps {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 72px;
-  }
-
-  /* Vertical connector line — spans from first dot to bottom of group */
-  .proceso__d-line {
-    position: absolute;
-    left: -32px; top: 26px; bottom: 0;
-    width: 1px;
-    background: var(--c-b-deep);
-  }
-
-  /* Steps */
-  .proceso__d-step {
-    position: relative;
-    width: 520px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  /* Dot on the timeline */
-  .proceso__d-dot {
-    position: absolute;
-    left: -37px; top: 26px;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--c-accent);
-  }
-
-  .proceso__d-num  { font-size: 10px; font-weight: 700; color: var(--c-accent); letter-spacing: 3px; }
-  .proceso__d-title{ font-size: 36px; font-weight: 800; color: var(--c-text); line-height: 1; }
-  .proceso__d-desc { font-size: 15px; color: var(--c-muted); line-height: 1.6; max-width: 480px; }
-}
-</style>

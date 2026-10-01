@@ -7,23 +7,11 @@ defineProps({
 </script>
 
 <template>
-  <div class="fi">
-    <span class="fi__marker">{{ marker }}</span>
-    <div class="fi__body">
-      <p class="fi__title">{{ title }}</p>
-      <p class="fi__desc">{{ description }}</p>
+  <div class="flex gap-6 py-5">
+    <span class="shrink-0 text-[14px] text-accent">{{ marker }}</span>
+    <div class="flex flex-col gap-1">
+      <p class="text-[18px] font-bold text-text">{{ title }}</p>
+      <p class="text-[14px] leading-[1.6] text-muted">{{ description }}</p>
     </div>
   </div>
 </template>
-
-<style scoped>
-.fi {
-  display: flex;
-  gap: 24px;
-  padding: 20px 0;
-}
-.fi__marker { font-size: 14px; color: var(--c-accent); flex-shrink: 0; }
-.fi__body   { display: flex; flex-direction: column; gap: 4px; }
-.fi__title  { font-size: 18px; font-weight: 700; color: var(--c-text); }
-.fi__desc   { font-size: 14px; color: var(--c-muted); line-height: 1.6; }
-</style>

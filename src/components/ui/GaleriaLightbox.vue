@@ -33,6 +33,8 @@ function onTouchEnd(e) {
 watch(isOpen, val => { document.body.style.overflow = val ? 'hidden' : '' })
 onMounted(()   => window.addEventListener('keydown', onKey))
 onUnmounted(() => { window.removeEventListener('keydown', onKey); document.body.style.overflow = '' })
+
+const NAV_BTN = 'absolute top-1/2 -translate-y-1/2 px-4 pt-5 pb-6 text-text opacity-50 transition-opacity duration-200 ease-[ease] hover:opacity-100'
 </script>
 
 <template>
@@ -40,13 +42,13 @@ onUnmounted(() => { window.removeEventListener('keydown', onKey); document.body.
     <Transition name="lb-fade">
       <div
         v-if="isOpen"
-        class="lb"
+        class="fixed inset-0 z-[300] flex items-center justify-center bg-black/93"
         @click.self="$emit('close')"
         @touchstart.passive="onTouchStart"
         @touchend.passive="onTouchEnd"
       >
         <!-- Close -->
-        <button class="lb__close" @click="$emit('close')" aria-label="Cerrar">
+        <button class="absolute top-5 right-5 px-2 pt-2 pb-3 text-text opacity-60 transition-opacity duration-200 ease-[ease] hover:opacity-100" @click="$emit('close')" aria-label="Cerrar">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="18" y1="6"  x2="6"  y2="18"/>
             <line x1="6"  y1="6"  x2="18" y2="18"/>
@@ -59,85 +61,33 @@ onUnmounted(() => { window.removeEventListener('keydown', onKey); document.body.
             :key="index"
             :src="images[index].src"
             :alt="images[index].alt"
-            class="lb__img"
+            class="h-auto max-h-[82vh] w-auto max-w-[min(90vw,1200px)] rounded-[3px] object-contain select-none"
           />
         </Transition>
 
         <!-- Prev -->
-        <button class="lb__nav lb__nav--prev" @click="prev" aria-label="Anterior">
+        <button :class="[NAV_BTN, 'left-2']" @click="prev" aria-label="Anterior">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
 
         <!-- Next -->
-        <button class="lb__nav lb__nav--next" @click="next" aria-label="Siguiente">
+        <button :class="[NAV_BTN, 'right-2']" @click="next" aria-label="Siguiente">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </button>
 
         <!-- Counter -->
-        <span class="lb__counter">{{ index + 1 }} / {{ images.length }}</span>
+        <span class="absolute bottom-5 left-1/2 -translate-x-1/2 text-[11px] tracking-[3px] text-muted">{{ index + 1 }} / {{ images.length }}</span>
       </div>
     </Transition>
   </Teleport>
 </template>
 
 <style scoped>
-.lb {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  background: rgba(0, 0, 0, 0.93);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.lb__img {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: min(90vw, 1200px);
-  max-height: 82vh;
-  object-fit: contain;
-  border-radius: 3px;
-  user-select: none;
-}
-
-.lb__close {
-  position: absolute;
-  top: 20px; right: 20px;
-  color: var(--c-text);
-  opacity: 0.6;
-  transition: opacity 0.2s;
-  padding: 8px;
-}
-.lb__close:hover { opacity: 1; }
-
-.lb__nav {
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  color: var(--c-text);
-  opacity: 0.5;
-  padding: 20px 16px;
-  transition: opacity 0.2s;
-}
-.lb__nav:hover  { opacity: 1; }
-.lb__nav--prev  { left: 8px; }
-.lb__nav--next  { right: 8px; }
-
-.lb__counter {
-  position: absolute;
-  bottom: 20px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: var(--c-muted);
-}
-
-/* Transitions */
+/* CSS fallback: clases de <Transition> de Vue (lb-fade / lb-img) para el fundido de entrada/salida */
 .lb-fade-enter-active, .lb-fade-leave-active { transition: opacity 0.25s; }
 .lb-fade-enter-from,  .lb-fade-leave-to      { opacity: 0; }
 
