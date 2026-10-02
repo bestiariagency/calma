@@ -413,6 +413,9 @@ Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__
 | D15 | Plan Supabase | Free + redimensionado en el cliente (recomendación, sin confirmar) |
 | D16 | Contenido antiguo un instante antes del nuevo en la landing | **A + B** (2026-10-02): A) petición temprana y ligera sin supabase-js en la landing (Etapa 8); B) al guardar, Supabase dispara un *Build hook* de Netlify que regenera el sitio con el contenido ya incluido (sin parpadeo, precarga correcta del hero, mejor SEO; publicación en 1–2 min). Requiere que el cliente cree el Build hook en Netlify (Etapa 11). |
 | D17 | Dirección, horario y redes en el sitio público | **En el footer** (2026-10-02): bloque discreto (dirección con enlace a Maps, horario, iconos de redes) diseñado por Búho-Pixel; sólo se muestra lo que tenga datos. |
+| D18 | Permisos de `media` (restringir UPDATE de `created_by/created_at`) | **No se cambia** (2026-10-02): sólo el dueño y el developer administran; se mantienen los permisos aprobados en la Etapa 3. |
+| D19 | Producción | Netlify conectado al repo; dominio `https://tinajas-calma.netlify.app`; envs `VITE_SUPABASE_*` cargadas por el cliente (2026-10-02). |
+| D20 | Permisos por defecto de `pg_net` (no revocables por `postgres`) | **Riesgo aceptado y documentado** (2026-10-02): `net` no está expuesto en la API (PGRST106 verificado); reglas en `supabase/README.md`: nunca exponer `net` ni crear funciones en `public` que lo usen. |
 
 ## 7. Registro de cambios
 
