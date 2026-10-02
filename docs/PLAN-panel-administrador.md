@@ -310,7 +310,7 @@ Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__
 - **Decisiones abiertas del cliente (Loro-Lola):** a quién debe contactar alguien en "Sin acceso".
 
 ### Etapa 8 — Panel: editores de sección · *Coneja-Lucky, microcopy Loro-Lola, revisa Búho-Pixel*
-- [x] **8A — Editor de textos** (`SectionEditorView`, `useSectionEditor`, `sectionService`, `lib/sectionEditor.js`):
+- [x] **8A — Editor de textos** (`SectionEditorView`, `useContentEditor`, `sectionService`, `lib/sectionEditor.js`):
       generado desde `contentSchema.js`; contadores; listas fijas numeradas; alt obligatorio; guardar = publicar
       (botón, header, ⌘S); escritura condicional por `updated_at` con Dialog de conflicto; descartar; aviso al
       salir; errores 23514/red/42501/401 entendibles sin perder lo escrito; skeleton desde el esquema.
@@ -347,7 +347,7 @@ Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__
 - **Resultado:** Búho-Pixel APROBADO (skeleton = cargado al píxel en 1440/768; footer en 4 casos y 3 anchos; captura de
   SúperXavi a 390/768: crédito visible 16 px sobre el botón). Zorro-Foxter revisión completa: `CompanyTestLink.vue`,
   3 textos muertos eliminados. `verify` verde (156 tests).
-- **Pendientes menores:** transición del nav del footer sin `motion-reduce` (previo); renombrar `useSectionEditor` →
+- **Pendientes menores:** transición del nav del footer sin `motion-reduce` (previo); renombrar `useContentEditor` →
   `useContentEditor` en la Etapa 11 si no rompe nada.
 
 ### Etapa 10 — Historial y restaurar · *Coneja-Lucky + Jabalí-Javi*
