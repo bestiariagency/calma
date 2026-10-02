@@ -6,22 +6,22 @@
 
 ## Estado general
 
-**Estado del plan:** ✅ Aprobado en alcance · ⏸️ En espera de la orden de inicio del cliente.
+**Estado del plan:** ✅ Aprobado · ▶️ En ejecución desde 2026-10-01 (base: commit `cba23df`).
 
 | # | Etapa | Responsables | Estado | Cierre |
 |---|---|---|---|---|
-| 0 | Preparación del repo y calidad | Osset-OP | ⏳ Pendiente | — |
-| 1 | Centralizar contenido + correcciones previas | Coneja-Lucky, Loro-Lola, Búho-Pixel | ⏳ Pendiente | — |
-| 2 | Optimización de imágenes (LCP) | Lince-Max, Coneja-Lucky | ⏳ Pendiente | — |
-| 3 | Backend Supabase: esquema, RLS, Storage, RPC | Jabalí-Javi, Leona-Lia (veto) | ⏳ Pendiente | — |
-| 4 | Auth: usuario del dueño y configuración | Cliente, Jabalí-Javi, Leona-Lia | ⏳ Pendiente | — |
-| 5 | Especificación de diseño del panel | Búho-Pixel + Coneja-Lucky | ⏳ Pendiente | — |
-| 6 | Infra frontend: router, cliente Supabase, contenido dinámico | Coneja-Lucky, Osset-OP | ⏳ Pendiente | — |
-| 7 | Panel: login, shell y kit de componentes | Coneja-Lucky, Búho-Pixel | ⏳ Pendiente | — |
-| 8 | Panel: editores de secciones (textos y fotos) | Coneja-Lucky, Loro-Lola, Búho-Pixel | ⏳ Pendiente | — |
-| 9 | Panel: Datos de la empresa | Coneja-Lucky, Loro-Lola, Búho-Pixel | ⏳ Pendiente | — |
-| 10 | Panel: historial y restaurar | Coneja-Lucky, Jabalí-Javi | ⏳ Pendiente | — |
-| 11 | QA final, refactor y deploy | Leona-Lia, Búho-Pixel, Lince-Max, Zorro-Foxter, Osset-OP | ⏳ Pendiente | — |
+| 0 | Preparación del repo y calidad | Osset-OP | ✅ Completa | 2026-10-01 · verify verde |
+| 1 | Centralizar contenido + correcciones previas | Coneja-Lucky, Loro-Lola, Búho-Pixel | ✅ Completa | 2026-10-02 · Búho APROBADO · 12 tests |
+| 2 | Optimización de imágenes (LCP) | Lince-Max, Coneja-Lucky | ✅ Completa | 2026-10-02 · 18 MB → 1,6 MB · Búho APROBADO |
+| 3 | Backend Supabase: esquema, RLS, Storage, RPC | Jabalí-Javi, Leona-Lia (veto) | ✅ Completa | 2026-10-02 · Leona APROBADO |
+| 4 | Auth: usuario del dueño y configuración | Cliente, Jabalí-Javi, Leona-Lia | ✅ Completa* | 2026-10-02 · Leona APROBADO · *ajustes de Dashboard pendientes del cliente |
+| 5 | Especificación de diseño del panel | Búho-Pixel + Coneja-Lucky | ✅ Completa | 2026-10-02 · spec + tokens en `@theme` |
+| 6 | Infra frontend: router, cliente Supabase, contenido dinámico | Coneja-Lucky, Osset-OP | ✅ Completa | 2026-10-02 · Búho APROBADO · 28 tests |
+| 7 | Panel: login, shell y kit de componentes | Coneja-Lucky, Búho-Pixel | ✅ Completa | 2026-10-02 · Búho APROBADO · 72 tests |
+| 8 | Panel: editores de secciones (textos y fotos) | Coneja-Lucky, Loro-Lola, Búho-Pixel | ✅ Completa | 2026-10-02 · Búho APROBADO · E2E real · 106 tests |
+| 9 | Panel: Datos de la empresa | Coneja-Lucky, Loro-Lola, Búho-Pixel | ✅ Completa | 2026-10-02 · Búho APROBADO · 156 tests |
+| 10 | Panel: historial y restaurar | Coneja-Lucky, Jabalí-Javi | ✅ Completa | 2026-10-02 · Leona y Búho APROBADO · 178 tests |
+| 11 | QA final, refactor y deploy | Leona-Lia, Búho-Pixel, Lince-Max, Zorro-Foxter, Osset-OP | ⏸️ Esperando datos del cliente | — |
 
 Leyenda: ⏳ Pendiente · 🔄 En curso · ✅ Completa · ⛔ Bloqueada
 
@@ -172,95 +172,203 @@ Coneja-Lucky en cada etapa de UI y tiene veto visual. El diseño no depende de P
 ## 4. Etapas
 
 ### Etapa 0 — Preparación del repo y calidad · *Osset-OP*
-- [ ] `.gitignore`: `.env`, `.env.*`, `!.env.example`; crear `.env.example`.
-- [ ] ESLint + Prettier + Vitest; scripts `lint`, `format`, `test`, `verify`.
-- [ ] CI `.github/workflows/ci.yml` con `npm run verify` (si hay remoto en GitHub).
+- [x] `.gitignore`: `.env`, `.env.*`, `!.env.example`; crear `.env.example`.
+- [x] ESLint + Prettier + Vitest; scripts `lint`, `lint:fix`, `format`, `format:check`, `test`, `verify`.
+- [x] CI `.github/workflows/ci.yml` con `npm run verify` (remoto `bestiariagency/calma`).
+- [x] `npm audit fix` (postcss/nanoid, severidad alta, sólo dependencias de desarrollo) → 0 vulnerabilidades.
+- **Resultado:** `verify` verde (lint 0 errores / 10 warnings en código existente, sin tests aún, build OK).
+  Los warnings `vue/no-v-html` se resuelven en la Etapa 1; el resto (orden/hyphenation de atributos)
+  queda fuera de alcance. `format:check` no forma parte de `verify` para no reformatear en masa.
 - **Hecho cuando:** `npm run verify` verde; sitio sin cambios visuales.
 
 ### Etapa 1 — Centralizar contenido y correcciones previas · *Coneja-Lucky → Loro-Lola → Búho-Pixel*
-- [ ] Crear `COMPANY` en `content.js` como fuente única de contacto (teléfono y WhatsApp `+56 9 2253 8166`);
-      derivar `WHATSAPP_URL` del número + mensaje.
-- [ ] Menú móvil: usar `COMPANY` (elimina el `+34` hardcodeado).
-- [ ] CTA: el enlace de email pasa a `mailto:` con un **email provisional (dummy)**, editable luego desde el panel.
-- [ ] Mover a `content.js` las rutas y `alt` de imágenes visibles, el disclaimer de Galería y el tagline del menú móvil.
-- [ ] Footer links como `{label, href}` (elimina la dependencia label→ancla).
-- [ ] Sustituir `v-html` por `whitespace-pre-line` (condición de Leona-Lia).
-- [ ] Eliminar campos sin uso (`GALERIA.quote`, `FOOTER.agency`). Lo comentado en el código no se toca.
-- [ ] Crear `contentSchema.js` (secciones, campos, límites, listas de tamaño fijo).
-- **Hecho cuando:** ningún texto ni imagen editable queda hardcodeado (salvo el crédito Bestiari, los
-  aria-labels y lo comentado); Búho-Pixel confirma cero regresión visual; build verde.
+- [x] `COMPANY` en `content.js` como fuente única de contacto; `src/lib/contact.js` (`whatsappUrl`, `telHref`, `mailtoHref`).
+- [x] Menú móvil usa `COMPANY` (teléfono `+56 9 2253 8166`; eliminado el `+34`).
+- [x] CTA: email como `mailto:` con valor provisional `info@calma.es`.
+- [x] Rutas y `alt` de imágenes, disclaimer de Galería y tagline movidos a `content.js`; logo en `COMPANY.logo`.
+- [x] Footer links `{label, href}`; copyright con año automático; crédito Bestiari intacto y hardcodeado.
+- [x] `v-html` sustituido por `whitespace-pre-line` en `TheCta.vue`.
+- [x] Eliminados `GALERIA.quote`, `FOOTER.agency`, `FOOTER.logo`. Lo comentado (Hero) no se tocó.
+- [x] `contentSchema.js` con labels y ayudas revisadas por Loro-Lola; listas de tamaño fijo.
+- [x] `contentSchema.test.js`: esquema ↔ contenido sincronizados, límites respetados, sin rastro del crédito Bestiari.
+- **Resultado:** Búho-Pixel APROBADO (sin regresión; cambios visibles sólo los 3 previstos: mailto, teléfono
+  móvil, año ©). Zorro-Foxter sin cambios necesarios. `verify` verde (12 tests).
+- **Sugerencias de copy de Loro-Lola para el cliente** (no aplicadas; editables desde el panel):
+  frase sin verbo en el primer párrafo de "Qué es"; confirmar plazo "3 a 4 semanas"; suavizar
+  "guarda el calor más que cualquier otro material" y "Durabilidad extrema"; unificar
+  "hormigón"/"concreto" (coordinar keyword con Lince-Max); "Terreno" → "Visita a tu terreno";
+  confirmar "pala y deck" en el disclaimer; confirmar email definitivo.
+- **Observación Zorro-Foxter:** las claves comentadas de `HERO` (tag, títulos, subtítulos) siguen en
+  `content.js` sólo como respaldo del código comentado; no son editables.
 
 ### Etapa 2 — Optimización de imágenes · *Lince-Max + Coneja-Lucky*
-- [ ] Convertir a WebP/AVIF con dimensiones adecuadas; `width/height` en todas.
-- [ ] Hero: `fetchpriority="high"` + `<link rel="preload">`; resto con `loading="lazy"`.
-- [ ] `preconnect` al dominio de Supabase.
-- **Hecho cuando:** el hero pesa menos de 300 KB y el peso total baja de forma drástica; LCP medido antes/después.
+- [x] 7 PNG → WebP q82 (mismas dimensiones; `npx sharp-cli` puntual, sin dependencias). PNG eliminados (en historial git).
+- [x] `width/height` en `content.js` y en todos los `<img>` (vía `v-bind` del objeto imagen).
+- [x] Hero: `fetchpriority="high"` + `<link rel="preload">`; resto `loading="lazy"` + `decoding="async"`.
+- [x] `preconnect` a Supabase (se aprovecha a partir de la Etapa 6).
+- **Resultado:** imágenes 18 MB → 1,6 MB (hero 3,35 MB → 177 KB). Búho-Pixel APROBADO (PSNR 36–38 dB, sin
+  artefactos). Lighthouse (mediana de 3): desktop 75 → 99, LCP 9,7 s → 0,9 s; CLS 0,006 → 0; peso
+  17,7 MB → 1,4 MB. Móvil simulado 94 (inestable 72/94/95) → 80 (estable); el LCP observado real es
+  equivalente (~170 ms). A/B: quitar el preload empeora (≈5,2 s vs 4,7 s simulado); precargar el logo
+  no mejora. El cuello de botella móvil es el CSS bloqueante de Google Fonts → fase 2.
+- **Fase 2 (Lince-Max):** auto-hospedar JetBrains Mono, `srcset` para el hero móvil, canonical/OG/JSON-LD,
+  `robots.txt` + `sitemap.xml` (requiere dominio de producción), prerender.
+- **Nota para la Etapa 6:** los `<img>` usan `v-bind` del objeto imagen; al llegar datos de la BD, mapear
+  sólo `{src, alt, width, height}` (no pasar `id`, `blurhash`, etc. como atributos del DOM).
 
 ### Etapa 3 — Backend Supabase · *Jabalí-Javi, veto Leona-Lia*
 Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__supabase__` sobre `lgiajkdvuftvtincbqzi`:
-- [ ] `init_privileges_and_extensions`: **revocar default privileges** de anon/authenticated en `public`; `pg_jsonschema`; `set_updated_at()`.
-- [ ] `create_admins_and_is_admin`
-- [ ] `create_media`
-- [ ] `create_site_settings`
-- [ ] `create_section_content` (+ función de validación JSON Schema por clave, listas de tamaño fijo)
-- [ ] `create_content_revisions` (+ triggers + `restore_revision`)
-- [ ] `create_storage_site_media` (bucket + policies)
-- [ ] `create_rpc_get_site_content` (+ `list_orphan_media`, `media_usage`)
-- [ ] `seed_site_content` (desde `content.js`; sin el crédito Bestiari ni lo comentado)
-- [ ] Tipos generados; `get_advisors` sin avisos.
-- **Hecho cuando:** Leona-Lia ejecuta su batería de pruebas (anon, authenticated no admin, admin y
-  catálogo del sistema) y aprueba la matriz de permisos.
+- [x] 9 migraciones aplicadas con `mcp__supabase__` y guardadas en `supabase/migrations/` (nombres = versión
+      remota; md5 idéntico a lo aplicado): `init_privileges_and_extensions` (revoca default privileges) ·
+      `create_admins_and_is_admin` · `create_media` · `create_site_settings` · `create_section_content`
+      (JSON Schema por clave, listas fijas, `additionalProperties: false`) · `create_content_revisions`
+      (triggers, `restore_revision`, poda a 30) · `create_storage_site_media` · `create_rpc_get_site_content`
+      (+ `list_orphan_media`, `media_usage`) · `seed_site_content`.
+- [x] Campo imagen en BD: `{media_id, src, alt, width, height, blurhash}`; seed con `media_id = null` y `src` estático.
+- [x] `get_site_content()` (anon) → `{ sections: {9 claves}, settings: {...}, updated_at }`, ~4,2 KB, sin crédito Bestiari.
+- [x] Tipos de referencia en `supabase/types/database.ts`; `supabase/README.md` (orden, modelo, alta de admin).
+- **Resultado:** Leona-Lia APROBADO tras batería completa (catálogo, anon, authenticated no admin, admin
+  ficticio en transacción revertida): RLS en todo, FORCE en `admins`/`content_revisions`, DEFINER con
+  `search_path=''`, JSON Schema y CHECKs rechazan entradas inválidas (campo extra, > maxLength, lista
+  incompleta, email inválido, WhatsApp no E.164, `javascript:`), revisiones con `changed_by` del servidor.
+- **Advisors aceptados:** 2 WARN por EXECUTE de `is_admin()` para anon/authenticated (necesario para las
+  policies; sólo devuelve un booleano sobre `auth.uid()`). 5 INFO de índices sin uso (BD sin tráfico).
+- **Pendiente para la Etapa 8:** probar end-to-end el límite de 5 MB y el filtro MIME del bucket (los aplica
+  la API de Storage, no la BD).
+- **Observaciones de Leona-Lia (no bloquean; requieren decisión del cliente por tocar GRANTs):**
+  `media` permite al admin actualizar `created_by/created_at` (sólo auditoría; se puede restringir a
+  `alt, width, height, blurhash`); la URL del proyecto está fijada en `private.media_public_url`.
+- Limitación de plataforma documentada: los default privileges de `supabase_admin` no se pueden revocar;
+  todos los objetos son de `postgres`, así que no aplica.
 
 ### Etapa 4 — Auth: usuario del dueño · *Cliente + Jabalí-Javi, verifica Leona-Lia*
-- [ ] **Cliente:** crea el usuario del dueño en Supabase Auth y nos lo comunica.
-- [ ] Cliente (Dashboard): desactivar signups públicos y proveedores sociales.
-- [ ] Insertar el `user_id` del dueño en `admins` (único admin).
-- [ ] Site URL y Redirect URLs (producción, localhost y deploy previews) para `/administrador/restablecer`.
-- [ ] Recuperación de contraseña con el **email integrado de Supabase** (sin SMTP externo).
-- [ ] MFA (TOTP) **opcional**, activable por el dueño desde el panel.
-- **Hecho cuando:** el dueño inicia sesión; `is_admin()` es true para él y false para cualquier otro.
+- [x] Cliente creó el usuario del dueño en Supabase Auth (email confirmado; único usuario del proyecto).
+- [x] Alta en `admins` (`insert … select id from auth.users where email = …`). Credenciales NO guardadas en el repo.
+- [x] Login real probado con la clave publicable: sesión OK, `is_admin()` = true para el dueño y false para anon.
+- [x] Leona-Lia APROBADO: 1 admin, sólo identidad email, grants y policies sin cambios desde la Etapa 3,
+      UPDATE permitido al admin y 0 filas para un usuario cualquiera; autopromoción bloqueada.
+- [x] **Cliente (Dashboard):** desactivar "Allow new users to sign up" (confirmado 2026-10-02).
+- [ ] *Leaked password protection* (opcional; sólo plan Pro de Supabase): pendiente. Mitigación en plan Free:
+      contraseña larga y única + MFA. Único aviso de seguridad abierto aparte de los 2 aceptados de `is_admin()`.
+- [x] **Cliente (Dashboard):** Site URL + Redirect URLs (`http://localhost:5173/administrador/restablecer` y
+      `https://<dominio>/administrador/restablecer`, más previews de Netlify) para el enlace de recuperación.
+- [ ] **Cliente:** cambiar la contraseña por una robusta (la actual se compartió por chat) y, si quiere, activar MFA.
+- Recuperación de contraseña con el email integrado de Supabase (sin SMTP externo). MFA TOTP opcional.
 
 ### Etapa 5 — Especificación de diseño del panel · *Búho-Pixel con Coneja-Lucky*
-- [ ] `docs/admin-design-spec.md`: tokens, tipografía, componentes con variantes y estados,
-      layouts (desktop, tablet, móvil), microinteracciones y criterios de contraste y accesibilidad.
-- [ ] Tokens añadidos a `@theme`.
-- **Hecho cuando:** la spec está aprobada por Búho-Pixel y es implementable por Coneja-Lucky.
+- [x] `docs/admin-design-spec.md` (~770 líneas): §1 tokens + contraste AA calculado · §2 tipografía y densidad ·
+      §3 31 componentes con estados (3.1–3.16 base, 3.17–3.31 Alert, Spinner, Card, Drawer, EmptyState,
+      OfflineBanner, Menu, Select, Checkbox, Avatar, SkipLink, Logo, Kbd, Dropzone, DiffView) · §4 layouts
+      1440/768/390 · §5 microinteracciones y a11y · §6 iconos lucide · §7 checklist de revisión.
+- [x] Revisión de implementabilidad por Coneja-Lucky: 28 incoherencias entre secciones y 15 componentes sin
+      definir → resueltos por Búho-Pixel (un solo primary por contexto, toasts 4/6 s, skeleton shimmer 1,2 s,
+      drawer 288 px, breakpoints `md:`/`lg:` del panel, nombres actuales de lucide, Toggle fuera de v1).
+- [x] Tokens en `@theme` (`src/style.css`): 51 de §1 + `--size-*`, `--tracking-*`, `animate-shimmer`; sombras
+      con `var(--color-line)`. Verificado que compilan. Landing sin cambio visual (no usa `rounded-sm/md/lg`,
+      `font-sans` ni `shadow-*`; si algún día los usa, prefijar). Inter sólo se cargará en el chunk del panel.
+- [x] Logos: `logo-blanco-calma.svg` (login, sidebar expandida) e `iso-calma.svg` (colapsada).
+- **Resultado:** spec cerrada por Búho-Pixel e implementable; `verify` verde.
 
 ### Etapa 6 — Infra frontend · *Coneja-Lucky + Osset-OP*
-- [ ] Instalar `vue-router` y `@supabase/supabase-js`.
-- [ ] `lib/supabase.js`, router (landing eager, admin lazy) y `LandingView`.
-- [ ] `useSiteContent` (seed → RPC → merge → caché) y secciones leyendo del composable.
-- [ ] `netlify.toml` (SPA, headers, CSP Report-Only, noindex del admin); envs en Netlify.
-- **Hecho cuando:** `/` se ve idéntico, sin parpadeo, con una sola request de contenido y sin chunk
-  de admin; un cambio hecho en la BD aparece en el sitio.
+- [x] `vue-router` 5 y `@supabase/supabase-js` 2 instalados; `.env.local` con la clave publicable (gitignored).
+- [x] `lib/supabase.js`, `services/contentService.js` (1 RPC), `lib/mergeContent.js` (merge guiado por la forma
+      del seed: ignora claves desconocidas, `media_id`/`blurhash`, tipos distintos; listas por índice),
+      `lib/contentCache.js` (localStorage con `updated_at`), `composables/useSiteContent.js` (`shallowRef`,
+      seed/caché → RPC en idle tras el primer paint vía import dinámico; si falla, se queda el seed).
+- [x] Router: `/` → `LandingView` (eager); `/administrador/**` lazy con meta noindex; anclas con scroll suave.
+- [x] Secciones y layout leen del composable; crédito Bestiari intacto.
+- [x] `netlify.toml`: build, SPA fallback, headers de seguridad, CSP **Report-Only**, cache (`/assets` immutable,
+      `/images` 1 semana, HTML no-cache), `X-Robots-Tag: noindex` + `no-store` en `/administrador` y subrutas.
+- **Resultado:** Búho-Pixel APROBADO (0 mutaciones de DOM y 0 layout-shift al llegar la RPC, layout idéntico a
+  1440/390, anclas, lightbox, menú móvil y back OK, consola limpia). Lince-Max: sin regresión (desktop 99, LCP
+  0,91 s; móvil 79, ruido; CLS 0; +70 kB transferidos; supabase y RPC fuera de la ruta crítica; el panel no se
+  descarga en `/`). Zorro-Foxter: arquitectura limpia, 1 simplificación + test de casos límite. `verify` verde
+  (28 tests). `npm ci` instala correctamente (incl. `tslib`).
+- **Pendiente de verificar en vivo (Etapa 8):** que un cambio guardado desde el panel aparece en `/`.
+- **Pendiente del cliente para producción:** envs `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` en Netlify
+  (Production + Deploy previews; si faltan, el sitio funciona con el seed pero sin contenido de la BD); Site URL
+  y Redirect URLs en Supabase Auth (`/administrador/restablecer` en producción, previews y localhost).
+- **Fase 2:** pasar la CSP a enforce tras revisar la consola en producción.
 
 ### Etapa 7 — Panel: login, shell y kit · *Coneja-Lucky, revisa Búho-Pixel*
-- [ ] Componentes base Tailwind-first (Button, Input, Textarea, Field, Toggle, Badge, Dialog, Toast, Skeleton, Tooltip).
-- [ ] Login, restablecer contraseña, guard de ruta (UX) y sesión expirada.
-- [ ] Shell: sidebar colapsable o drawer, header con breadcrumb y estado de guardado.
-- **Hecho cuando:** Búho-Pixel aprueba calidad visual, responsive y contraste; navegación completa por teclado.
+- [x] Kit (`src/components/admin/ui/`): Button (loading con `loadingLabel`), Spinner, Input, Textarea (autosize),
+      Field (contador 90 %/100 %), Alert, Badge, Card, Kbd, Skeleton, Tooltip (teleportado), Dialog (focus trap,
+      inert, scroll lock), Toast + `useToast`, Logo, SkipLink, Avatar, Drawer. Iconos `lucide-vue-next`; Inter
+      autoalojada (`@fontsource-variable/inter`) sólo en el chunk del panel. Página `/administrador/kit` sólo en DEV.
+- [x] Auth: `authService` + `useAuth` (sesión reactiva, `is_admin` cacheado, reset con `redirectTo`, nueva
+      contraseña, MFA TOTP si hay factor → aal2). Rutas `/administrador/{acceso,restablecer,sin-acceso,seccion/:key,
+      empresa,historial}`, guard UX con `redirect` saneado, título "Administración — CALMA", noindex.
+- [x] Shell: sidebar 248/64 (colapso recordado; tablet siempre colapsada; drawer < 768) generado desde
+      `CONTENT_SCHEMA`; header con breadcrumb, SaveStatus, "Ver sitio", "Guardar ⌘S"; SkipLink; ToastHost;
+      Dialog de sesión expirada; 404 del panel; `scheme-dark` sólo en la raíz del panel.
+- [x] Microcopy revisado por Loro-Lola (`adminShellText.js`): errores genéricos en login y "si el correo existe…".
+- **Resultado:** Búho-Pixel APROBADO tras 2 rondas (kit: 5 ajustes; pantallas: tooltip recortado, foco al
+  primer campo inválido, enlaces ≥ 24/44 px, etiqueta de carga, logo en sin-acceso). Zorro-Foxter: cooldown
+  unificado y tablas de errores. `verify` verde (72 tests); el kit no entra en producción; la landing no carga
+  nada del panel; sin secretos en el código.
+- **Pendiente (Etapa 8):** revisar en vivo SaveStatus (guardando/sin guardar/error) y UnsavedBar.
+- **Decisiones abiertas del cliente (Loro-Lola):** a quién debe contactar alguien en "Sin acceso".
 
 ### Etapa 8 — Panel: editores de sección · *Coneja-Lucky, microcopy Loro-Lola, revisa Búho-Pixel*
-- [ ] Editor genérico guiado por `contentSchema.js` (texto, textarea, contador, validación).
-- [ ] ImageField: redimensionado WebP en cliente, subida, preview, reemplazo y `alt` obligatorio.
-- [ ] Listas de tamaño fijo como cards numeradas (sólo editar contenido).
-- [ ] Barra "Cambios sin guardar", ⌘S, aviso al salir y toasts.
-- [ ] Todas las secciones de la landing editables.
-- **Hecho cuando:** cada texto y foto visible de la landing se cambia desde el panel y se refleja en `/`.
+- [x] **8A — Editor de textos** (`SectionEditorView`, `useSectionEditor`, `sectionService`, `lib/sectionEditor.js`):
+      generado desde `contentSchema.js`; contadores; listas fijas numeradas; alt obligatorio; guardar = publicar
+      (botón, header, ⌘S); escritura condicional por `updated_at` con Dialog de conflicto; descartar; aviso al
+      salir; errores 23514/red/42501/401 entendibles sin perder lo escrito; skeleton desde el esquema.
+- [x] Microcopy del editor (Loro-Lola): "Guardar y publicar", conflicto que explica qué se pierde.
+- [x] Búho-Pixel APROBADO tras 1 ronda (UnsavedBar 640 px sin truncar, conflicto apilado, un solo canal por error,
+      skeleton fiel, SaveStatus `idle`, targets).
+- [x] **D16-A:** la landing pide `get_site_content` con `fetch` directo al arrancar (sin supabase-js en la landing,
+      −55 kB gzip); el contenido llega en ~0,3–0,6 s (antes hasta ~3 s). 1 petición, caché y fallback intactos.
+- [x] **E2E real (SúperXavi, con la cuenta del dueño; contenido restaurado):** guardar → visible para anon al
+      instante → exceso de longitud rechazado (23514) → restaurar → 2 revisiones con `changed_by` del dueño.
+- [x] **E2E real de Storage** (pendiente de la Etapa 3): 6 MB → 413; SVG → 415; fuera de `sections/` → 403; anon → 403;
+      webp válido del admin → OK y URL pública 200; anon no puede listar; objeto de prueba borrado (bucket vacío).
+- [x] **8B — Subida/cambio de fotos:** dropzone + botón + teclado; procesado en el navegador (EXIF, lado mayor ≤ 2400 px,
+      ≤ 5 MB; WebP y, si el navegador no lo genera —Safari/iPhone—, JPEG); upload a `sections/<key>/<uuid>.<webp|jpg>`;
+      fila en `media`; contenido `{media_id, src: null, alt, width, height}`; progreso por fases y cancelar; errores en
+      el campo; metadatos "W × H · KB · FORMATO"; aviso "Foto lista · aún no se ve en el sitio". Textos de Loro-Lola.
+- [x] Búho-Pixel APROBADO 8B, incluido **WebKit real** (Safari): produce JPEG y sube correctamente.
+- [x] Zorro-Foxter: `readyHelp` visible, computed en `ResetPasswordView`. **Revisión parcial** (no repasó todos los
+      archivos de la etapa) → revisión completa en la Etapa 11. Candidato: componente de enlace común (estilo repetido).
+- **Nota:** las imágenes reemplazadas quedan huérfanas hasta la limpieza de la Etapa 10. La precarga del hero en
+  `index.html` apunta a la imagen estática hasta D16-B.
 
 ### Etapa 9 — Panel: Datos de la empresa · *Coneja-Lucky + Loro-Lola, revisa Búho-Pixel*
-- [ ] Formulario tipado (email, teléfono, WhatsApp E.164 + mensaje, dirección, mapa, horario, redes).
-- [ ] Validaciones inline coherentes con los CHECK de la BD; prueba del enlace de WhatsApp.
-- [ ] Toda la landing (CTA, menú móvil, botón flotante, footer) consume estos datos.
-- **Hecho cuando:** cambiar el teléfono en el panel lo cambia en todos los puntos del sitio.
+- [x] `/administrador/empresa` con 6 grupos (Identidad, Contacto, WhatsApp, Ubicación, Horario, Redes), reutilizando la
+      infraestructura del editor mediante un adaptador de origen (`editorSources`, `settingsService`, `conditionalWrite`).
+- [x] Validación cliente (`lib/fieldFormats.js`) idéntica a los CHECK de la BD (verificado por Zorro-Foxter); normalización
+      del WhatsApp; enlaces de prueba (correo, llamada, mapa, redes) y vista del enlace wa.me con "Probar".
+- [x] La landing toma email/teléfono/WhatsApp de `settings` en CTA, menú móvil, nav y botón flotante (test).
+- [x] **D17:** bloque de contacto en el footer (dirección con Maps, horario, redes) según `docs/footer-contacto-spec.md`;
+      sólo se muestra lo que tiene datos (vacío = footer idéntico al original); iconos oficiales de Simple Icons (CC0)
+      en SVG inline, sin dependencias; enlaces sólo `https://`; aria-labels de Loro-Lola.
+- [x] Corrección previa detectada: el botón flotante de WhatsApp tapaba el crédito de Bestiari en móvil → reserva
+      `max-desktop:pb-24` en el footer (aprobado por el cliente; crédito intacto; 1440 idéntico).
+- **Resultado:** Búho-Pixel APROBADO (skeleton = cargado al píxel en 1440/768; footer en 4 casos y 3 anchos; captura de
+  SúperXavi a 390/768: crédito visible 16 px sobre el botón). Zorro-Foxter revisión completa: `CompanyTestLink.vue`,
+  3 textos muertos eliminados. `verify` verde (156 tests).
+- **Pendientes menores:** transición del nav del footer sin `motion-reduce` (previo); renombrar `useSectionEditor` →
+  `useContentEditor` en la Etapa 11 si no rompe nada.
 
 ### Etapa 10 — Historial y restaurar · *Coneja-Lucky + Jabalí-Javi*
-- [ ] Tabla de revisiones por sección (fecha, autor, cambio) con diff legible.
-- [ ] Restaurar versión con diálogo de confirmación.
-- [ ] Limpieza de imágenes reemplazadas que ya no se usan.
-- **Hecho cuando:** se puede deshacer cualquiera de las últimas 30 versiones.
+- [x] **Backend (Jabalí-Javi):** auditoría de `restore_revision` (secciones y `site_settings`; restaurar crea revisión y
+      se puede deshacer; idéntico no crea revisión) y migración `20261002100444_harden_list_orphan_media`: una foto no es
+      huérfana si la usa el contenido actual o cualquier revisión retenida; detecta objetos sin registro; margen de 1 h.
+      Leona-Lia APROBADO (ACL idéntica, INVOKER, `search_path=''`, sólo `site-media/sections/`).
+- [x] `/administrador/historial`: tabla paginada (25), filtro por sección, autor ("Tú"/"Administrador"), resumen;
+      cards en móvil; panel lateral "Qué cambiaría al volver atrás" (Publicado ahora / Así quedaría, con miniaturas);
+      "Volver a esta versión" con confirmación y errores mapeados (23514, P0002, permiso, sesión, red).
+- [x] "Fotos sin usar": total, lista, "Liberar espacio" con confirmación, progreso y fallo parcial (Storage primero, luego
+      `media`; `data` vacío tratado como bloqueo). Resuelto el TODO de la Etapa 8.
+- [x] Textos de Loro-Lola. Búho-Pixel CAMBIOS (cards solapadas a 390, scroll horizontal a 768, targets, foco) →
+      corregidos y verificados con capturas por SúperXavi. Zorro-Foxter revisión completa (`toError` unificado).
+- [x] **E2E real (SúperXavi):** `restore_revision` OK sin cambiar el sitio; inexistente → P0002; anon → 42501;
+      `list_orphan_media` responde.
+- **Resultado:** `verify` verde (178 tests); chunk inicial de la landing sin cambios (HistoryView lazy, 28 kB).
 
 ### Etapa 11 — QA final, refactor y deploy
+- [ ] **D16-B:** Build hook de Netlify (secreto en Supabase, nunca en el cliente) disparado tras cada guardado
+      (Edge Function o webhook de BD, con debounce); el build genera el seed desde `get_site_content` y la precarga del hero.
 - [ ] Leona-Lia: batería completa de permisos, grep de `service_role` en `dist/` y headers en el deploy preview.
 - [ ] Búho-Pixel: landing sin regresiones; panel aprobado en desktop, tablet y móvil.
 - [ ] Lince-Max: LCP/CLS de `/` y bundle inicial sin el admin.
@@ -303,6 +411,8 @@ Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__
 | D13 | Rol de Búho-Pixel | Evaluador experto de calidad de diseño (UI/UX, responsive, contraste), junto a frontend; no depende de Pencil |
 | D14 | SEO editable (title/description/OG) | Fase 2 (recomendación, sin confirmar) |
 | D15 | Plan Supabase | Free + redimensionado en el cliente (recomendación, sin confirmar) |
+| D16 | Contenido antiguo un instante antes del nuevo en la landing | **A + B** (2026-10-02): A) petición temprana y ligera sin supabase-js en la landing (Etapa 8); B) al guardar, Supabase dispara un *Build hook* de Netlify que regenera el sitio con el contenido ya incluido (sin parpadeo, precarga correcta del hero, mejor SEO; publicación en 1–2 min). Requiere que el cliente cree el Build hook en Netlify (Etapa 11). |
+| D17 | Dirección, horario y redes en el sitio público | **En el footer** (2026-10-02): bloque discreto (dirección con enlace a Maps, horario, iconos de redes) diseñado por Búho-Pixel; sólo se muestra lo que tenga datos. |
 
 ## 7. Registro de cambios
 
@@ -310,3 +420,15 @@ Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__
 |---|---|---|
 | 2026-10-01 | — | Plan creado con los informes de los agentes |
 | 2026-10-01 | — | Incorporadas las decisiones D1–D13 del cliente; Etapa 5 pasa a especificación de diseño (sin Pencil) |
+| 2026-10-01 | 0 | Etapa 0 completada: tooling de calidad, CI, `.env.example`, audit fix |
+| 2026-10-02 | 1 | Etapa 1 completada: contenido centralizado, bugs de contacto corregidos, `v-html` eliminado, esquema + test |
+| 2026-10-02 | 2 | Etapa 2 completada: imágenes WebP, dimensiones, preload del hero; medición Lighthouse |
+| 2026-10-02 | 3 | Etapa 3 completada: esquema, RLS, Storage y RPC en Supabase; veto de Leona-Lia superado |
+| 2026-10-02 | 5 | Etapa 5 completada: especificación de diseño del panel + tokens en `@theme` |
+| 2026-10-02 | 6 | Etapa 6 completada: router, contenido dinámico desde Supabase, `netlify.toml` |
+| 2026-10-02 | 4 | Etapa 4: dueño dado de alta como admin; login real verificado; ajustes de Dashboard pendientes del cliente |
+| 2026-10-02 | 7 | Etapa 7 completada: kit, login/restablecer/MFA, guard y shell del panel |
+| 2026-10-02 | 8 | 8A (editor de textos) aprobada; D16-A (petición temprana); E2E reales de guardado y Storage |
+| 2026-10-02 | 8 | Etapa 8 completada: editor de textos y fotos (incl. Safari/iPhone), E2E reales |
+| 2026-10-02 | 9 | Etapa 9 completada: Datos de la empresa, bloque de contacto en el footer, crédito Bestiari visible en móvil |
+| 2026-10-02 | 10 | Etapa 10 completada: historial, volver a una versión, limpieza segura de fotos |
