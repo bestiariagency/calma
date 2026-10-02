@@ -1,6 +1,8 @@
 <script setup>
 import IconWhatsApp from '../ui/IconWhatsApp.vue'
-import { NAV_LINKS } from '../../data/content.js'
+import { useSiteContent } from '../../composables/useSiteContent.js'
+
+const { nav } = useSiteContent()
 
 defineProps({
   isMenuOpen: { type: Boolean, default: false },
@@ -15,7 +17,7 @@ defineEmits(['toggleMenu'])
 
       <!-- Desktop links -->
       <div class="hidden items-center gap-8 md:flex">
-        <template v-for="link in NAV_LINKS" :key="link.href">
+        <template v-for="link in nav.links" :key="link.href">
           <a
             v-if="!link.cta"
             :href="link.href"
@@ -34,7 +36,7 @@ defineEmits(['toggleMenu'])
       </div>
 
       <!-- Mobile hamburger -->
-      <button class="flex items-center text-accent md:hidden" @click="$emit('toggleMenu')" aria-label="Abrir menú">
+      <button class="flex items-center text-accent md:hidden" aria-label="Abrir menú" @click="$emit('toggleMenu')">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <line x1="3" y1="6"  x2="21" y2="6" />
           <line x1="3" y1="12" x2="21" y2="12" />

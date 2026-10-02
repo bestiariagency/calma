@@ -1,8 +1,10 @@
 <script setup>
 import SectionLabel from '../ui/SectionLabel.vue'
-import { PROCESO }  from '../../data/content.js'
+import { useSiteContent } from '../../composables/useSiteContent.js'
 
-const isLastStep = i => i === PROCESO.steps.length - 1
+const { proceso } = useSiteContent()
+
+const isLastStep = i => i === proceso.value.steps.length - 1
 </script>
 
 <template>
@@ -10,10 +12,10 @@ const isLastStep = i => i === PROCESO.steps.length - 1
 
     <!-- ─── Mobile ────────────────────────────────────── -->
     <div v-reveal.each class="flex min-h-screen flex-col justify-center px-[28px] py-12 md:hidden">
-      <SectionLabel data-reveal="text" :text="PROCESO.label" />
+      <SectionLabel data-reveal="text" :text="proceso.label" />
       <div class="h-[20px]" />
       <div
-        v-for="(step, i) in PROCESO.steps"
+        v-for="(step, i) in proceso.steps"
         :key="step.title"
         data-reveal="text"
         class="flex gap-[20px]"
@@ -35,17 +37,17 @@ const isLastStep = i => i === PROCESO.steps.length - 1
     <div v-reveal class="relative hidden min-h-screen overflow-hidden md:block">
       <!-- Right: image + overlay -->
       <div data-reveal="image" data-reveal-i="0" class="absolute inset-y-0 right-0 w-[720px] overflow-hidden reveal-from-right">
-        <img data-reveal="zoom" src="/images/derecha.png" alt="Tinaja de hormigón instalada" />
+        <img data-reveal="zoom" v-bind="proceso.image" loading="lazy" decoding="async" />
         <div class="absolute inset-0 bg-[linear-gradient(to_right,var(--color-darkest)_11%,rgba(0,0,0,0.77)_50%,transparent_100%)]" />
       </div>
 
       <!-- Left: content -->
       <div v-reveal.each class="absolute inset-y-0 left-0 flex w-[720px] flex-col justify-center pl-[144px]">
-        <span data-reveal="fade" class="absolute top-1/2 left-[44px] origin-center transform-[translateY(-50%)_rotate(-90deg)] text-[10px] font-bold tracking-[5px] whitespace-nowrap text-accent">PROCESO</span>
+        <span data-reveal="fade" class="absolute top-1/2 left-[44px] origin-center transform-[translateY(-50%)_rotate(-90deg)] text-[10px] font-bold tracking-[5px] whitespace-nowrap text-accent">{{ proceso.label }}</span>
         <div class="relative flex flex-col gap-[72px]">
           <div data-reveal="line" class="absolute left-[-32px] top-[26px] bottom-0 w-px bg-b-deep" />
           <div
-            v-for="step in PROCESO.steps"
+            v-for="step in proceso.steps"
             :key="step.title"
             data-reveal="text"
             class="relative w-[520px] flex flex-col gap-[10px] [--reveal-offset:var(--motion-follow-short)]"

@@ -1,4 +1,24 @@
-export const WHATSAPP_URL = 'https://wa.me/56922538166?text=Hola%2C%20me%20interesa%20una%20tinaja%20CALMA'
+import { whatsappUrl } from '../lib/contact.js'
+
+// Fuente única de contacto e identidad. WHATSAPP_URL y los enlaces tel:/mailto: se derivan de aquí.
+export const COMPANY = {
+  name:             'CALMA',
+  tagline:          'TINAJAS DE CONCRETO ARTESANAL',
+  logo:             { src: '/images/logos/logo-blanco-calma.svg', alt: 'CALMA' },
+  email:            'info@calma.es', // provisional (dummy)
+  phone:            '+56 9 2253 8166',
+  whatsapp:         '+56922538166',
+  whatsapp_message: 'Hola, me interesa una tinaja CALMA',
+  // Bloque de contacto del footer: solo se pinta lo que tenga dato (editables desde el panel)
+  address:          '',
+  city:             '',
+  region:           '',
+  maps_url:         '',
+  opening_hours:    '',
+  social: { instagram: '', facebook: '', tiktok: '', youtube: '' },
+}
+
+export const WHATSAPP_URL = whatsappUrl(COMPANY.whatsapp, COMPANY.whatsapp_message)
 
 export const NAV_LINKS = [
   { label: 'Inicio',   href: '#inicio' },
@@ -17,6 +37,7 @@ export const MOBILE_MENU_LINKS = [
 ]
 
 export const HERO = {
+  image: { src: '/images/hero-dia.webp', width: 1853, height: 1034, alt: 'Tinaja artesanal de hormigón en jardín' },
   tag: '— TINAJAS DE CONCRETO —',
   titleDesktop: 'Tinajas artesanales de hormigón',
   titleMobile:  'Tinajas\nartesanales\nde hormigón',
@@ -26,6 +47,7 @@ export const HERO = {
 }
 
 export const QUE_ES = {
+  image: { src: '/images/drones.webp', width: 1449, height: 1086, alt: 'Vista aérea de tinaja de hormigón' },
   label: 'QUÉ ES',
   title: 'Una tinaja es más que un baño',
   paragraphs: [
@@ -35,6 +57,8 @@ export const QUE_ES = {
 }
 
 export const POR_QUE = {
+  imageTop:    { src: '/images/hormigon.webp', width: 1408, height: 768, alt: 'Textura de hormigón artesanal' },
+  imageBottom: { src: '/images/hormigon.webp', width: 1408, height: 768, alt: 'Textura de hormigón' },
   label: 'POR QUÉ HORMIGÓN',
   title: 'Material que\nmejora con\nel tiempo.',
   features: [
@@ -46,6 +70,7 @@ export const POR_QUE = {
 }
 
 export const PROCESO = {
+  image: { src: '/images/derecha.webp', width: 1536, height: 1024, alt: 'Tinaja de hormigón instalada' },
   label: 'PROCESO',
   steps: [
     { number: '01  —  VISITAMOS',  title: 'Terreno',                  description: 'Generamos una visita para asegurar que las condiciones sean las óptimas.' },
@@ -57,30 +82,36 @@ export const PROCESO = {
 export const GALERIA = {
   label: 'GALERÍA',
   title: 'Cada pieza, una historia',
-  quote: {
-    text:   '"El fuego cruje. El vapor sube. La noche puede esperar."',
-    author: '— Cliente CALMA, 2024',
-  },
+  disclaimer: '* Imágenes referenciales. Incluye escalera, banca interior y protección de cañerías. Pala y deck se venden por separado.',
   images: [
-    { src: '/images/frente-gem-3.png', alt: 'Tinaja frontal' },
-    { src: '/images/drones.png',       alt: 'Vista aérea' },
-    { src: '/images/close-up.png',     alt: 'Detalle de hormigón' },
-    { src: '/images/parcela.png',      alt: 'Tinaja en parcela' },
+    { src: '/images/frente-gem-3.webp', width: 1195, height: 896, alt: 'Tinaja de hormigón de frente' },
+    { src: '/images/drones.webp', width: 1449, height: 1086,       alt: 'Vista aérea de la tinaja' },
+    { src: '/images/close-up.webp', width: 1536, height: 1024,     alt: 'Detalle de hormigón' },
+    { src: '/images/parcela.webp', width: 1536, height: 1024,      alt: 'Tinaja en parcela' },
   ],
 }
 
 export const CTA = {
+  image:    { src: '/images/parcela.webp', width: 1536, height: 1024, alt: 'Jardín con tinaja instalada' },
   label:    'HABLEMOS',
   title:    'Diseñada\npara ti.',
   subtitle: 'Cuéntanos tu espacio. Nosotros hacemos el resto.',
   cta:      'Solicitar consulta →',
-  email:    'info@calma.es',
-  phone:    '+56 9 2253 8166',
 }
 
 export const FOOTER = {
-  logo:      'CALMA',
-  links:     ['Producto', 'Galería', 'Contacto'],
-  copyright: '© 2025 CALMA',
-  agency:    'BLOQUE',
+  links: [
+    { label: 'Producto', href: '#producto' },
+    { label: 'Galería',  href: '#galeria' },
+    { label: 'Contacto', href: '#contacto' },
+  ],
+  copyrightName: 'CALMA',
+  // Bloque de contacto (aparece solo con datos en COMPANY). Los redacta/revisa Loro-Lola.
+  labels: {
+    address: 'Dirección',
+    hours: 'Horario',
+    group: 'Contacto y redes',
+    mapsAria: 'Ver {address} en Google Maps (se abre en una pestaña nueva)',
+    socialAria: '{network} de {name} (se abre en una pestaña nueva)',
+  },
 }

@@ -1,5 +1,8 @@
 <script setup>
-import { MOBILE_MENU_LINKS } from '../../data/content.js'
+import { useSiteContent } from '../../composables/useSiteContent.js'
+import { mailtoHref, telHref } from '../../lib/contact.js'
+
+const { company, mobileMenu } = useSiteContent()
 
 defineProps({
   isOpen: { type: Boolean, required: true },
@@ -13,8 +16,8 @@ defineEmits(['close'])
 
       <!-- Header -->
       <div class="flex shrink-0 items-center justify-between px-6 py-5">
-        <span class="text-[16px] font-bold tracking-[3px] text-text">CALMA</span>
-        <button class="flex items-center text-accent" @click="$emit('close')" aria-label="Cerrar menú">
+        <span class="text-[16px] font-bold tracking-[3px] text-text">{{ company.name }}</span>
+        <button class="flex items-center text-accent" aria-label="Cerrar menú" @click="$emit('close')">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="18" y1="6"  x2="6"  y2="18" />
             <line x1="6"  y1="6"  x2="18" y2="18" />
@@ -27,7 +30,7 @@ defineEmits(['close'])
       <!-- Nav items -->
       <nav class="flex flex-1 flex-col justify-center overflow-y-auto">
         <a
-          v-for="link in MOBILE_MENU_LINKS"
+          v-for="link in mobileMenu.links"
           :key="link.href"
           :href="link.href"
           class="flex items-center justify-between px-[28px] py-[22px] text-[26px] font-extrabold tracking-[2px] transition-[color] duration-200 ease-[ease] active:text-accent"
@@ -46,9 +49,9 @@ defineEmits(['close'])
 
       <!-- Footer info -->
       <div class="flex shrink-0 flex-col gap-1.5 border-t border-t-b-deep px-[28px] pt-[22px] pb-[32px]">
-        <span class="text-[9px] tracking-[2px] text-b-dark">TINAJAS DE CONCRETO ARTESANAL</span>
-        <a href="mailto:info@calma.es" class="text-[13px] text-muted">info@calma.es</a>
-        <a href="tel:+34600000000"     class="text-[13px] text-muted">+34 600 000 000</a>
+        <span class="text-[9px] tracking-[2px] text-b-dark">{{ company.tagline }}</span>
+        <a :href="mailtoHref(company.email)" class="text-[13px] text-muted">{{ company.email }}</a>
+        <a :href="telHref(company.phone)"    class="text-[13px] text-muted">{{ company.phone }}</a>
       </div>
 
     </div>

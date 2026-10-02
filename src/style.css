@@ -47,6 +47,81 @@
   @keyframes hero-in {
     from { opacity: 0.01; translate: 0 var(--motion-rise-sm); }
   }
+
+  /* === Panel /administrador (docs/admin-design-spec.md §1). Inter se carga solo en el chunk del panel. === */
+  /* Superficies (cálidas, de más oscuro a más elevado) */
+  --color-app-bg:        #0E0C09; /* = darkest: fondo de la página */
+  --color-surface-1:     #15120E; /* sidebar, header */
+  --color-surface-2:     #1B1712; /* cards, tabla */
+  --color-surface-3:     #221D17; /* inputs, hover de filas/ítems */
+  --color-surface-4:     #2A251E; /* popovers, toast, tooltip, dialog */
+  --color-overlay:       rgb(14 12 9 / 0.72); /* fondo de Dialog y drawer */
+
+  /* Bordes */
+  --color-line:          #2A2520; /* separadores y bordes de card (decorativo) */
+  --color-line-strong:   #3A3530; /* borde hover de card, divisores marcados */
+  --color-line-input:    #7C766F; /* borde de controles: 3:1 mínimo (WCAG 1.4.11) */
+
+  /* Texto */
+  --color-text-2:        #B8B1A8; /* secundario: ayudas, metadatos */
+  --color-text-3:        #948D84; /* terciario: placeholder, contadores */
+  --color-text-disabled: #6E6962; /* solo deshabilitado (exento de AA) */
+
+  /* Acento cobre (el existente --color-accent #C17F4A es la base) */
+  --color-accent-hover:  #CF8E58;
+  --color-accent-press:  #B26F3C;
+  --color-accent-soft:   #32261A; /* fondo de ítem activo / chip (14% sobre surface-2) */
+  --color-accent-line:   #5D4128; /* borde de elemento activo suave */
+  --color-accent-text:   #D4955F; /* cobre como TEXTO/enlace sobre superficies */
+  --color-on-accent:     #14100B; /* texto sobre botón cobre */
+
+  /* Estados: texto/icono, fondo soft, borde */
+  --color-success:       #6FCF97;  --color-success-soft: #252D22;  --color-success-line: #385741;
+  --color-warning:       #E5B454;  --color-warning-soft: #332A1A;  --color-warning-line: #624E29;
+  --color-danger:        #EF7B72;  --color-danger-soft:  #34231E;  --color-danger-line:  #653A34;
+  --color-info:          #7BB2E6;  --color-info-soft:    #272A2B;  --color-info-line:    #3D4D5C;
+  --color-danger-solid:  #B8433C;  /* fondo botón destructivo */
+  --color-danger-solid-hover: #A63A34;
+  --color-danger-solid-press: #92312C;
+
+  /* Foco */
+  --color-ring:          #C17F4A;  /* = accent */
+  --ring-width:          2px;
+  --ring-offset:         2px;      /* offset en color app-bg o la superficie contigua */
+
+  /* Radios */
+  --radius-sm: 6px;   /* badges, chips, tooltip */
+  --radius-md: 8px;   /* botones, inputs, items */
+  --radius-lg: 12px;  /* cards, dialog, toast */
+
+  /* Sombras (solo overlays) */
+  --shadow-popover: 0 8px 24px rgb(0 0 0 / 0.45), 0 0 0 1px var(--color-line);
+  --shadow-dialog:  0 24px 64px rgb(0 0 0 / 0.6), 0 0 0 1px var(--color-line);
+  --shadow-bar:     0 -8px 24px rgb(0 0 0 / 0.4); /* UnsavedBar */
+
+  /* Fuente */
+  --font-sans: 'Inter Variable', 'Inter', system-ui, sans-serif;  /* @fontsource-variable/inter registra 'Inter Variable' */
+
+  /* Layout */
+  --spacing-sidebar: 248px;   --spacing-sidebar-collapsed: 64px;
+  --spacing-header: 56px;     --spacing-content-max: 880px;  /* ancho del editor */
+  /* Anchos de overlays del panel (uso: w-(--size-drawer)) */
+  --size-drawer: 288px;       --size-diff-drawer: 480px;     --size-dialog: 480px;
+  --size-toast: 380px;        --size-unsaved-bar: 640px;     --size-login-card: 400px;
+
+  /* Tracking del panel */
+  --tracking-title: -0.01em;  --tracking-eyebrow: 0.12em;    --tracking-code: 0.3em;
+
+  /* Skeleton (CSS fallback en @keyframes: Tailwind no trae shimmer por background-position) */
+  --animate-shimmer: shimmer 1.2s linear infinite;
+  @keyframes shimmer {
+    from { background-position: 200% 0; }
+    to   { background-position: -200% 0; }
+  }
+
+  /* Motion del panel (no reutilizar los de la landing) */
+  --motion-fast: 120ms;  --motion-base: 160ms;  --motion-slow: 200ms;
+  --ease-panel: cubic-bezier(0.2, 0, 0, 1);
 }
 
 /* html.motion-ok lo pone src/directives/reveal.js (hay IO y no hay prefers-reduced-motion). */

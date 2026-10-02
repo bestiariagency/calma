@@ -48,7 +48,7 @@ const NAV_BTN = 'absolute top-1/2 -translate-y-1/2 px-4 pt-5 pb-6 text-text opac
         @touchend.passive="onTouchEnd"
       >
         <!-- Close -->
-        <button class="absolute top-5 right-5 px-2 pt-2 pb-3 text-text opacity-60 transition-opacity duration-200 ease-[ease] hover:opacity-100" @click="$emit('close')" aria-label="Cerrar">
+        <button class="absolute top-5 right-5 px-2 pt-2 pb-3 text-text opacity-60 transition-opacity duration-200 ease-[ease] hover:opacity-100" aria-label="Cerrar" @click="$emit('close')">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="18" y1="6"  x2="6"  y2="18"/>
             <line x1="6"  y1="6"  x2="18" y2="18"/>
@@ -59,21 +59,21 @@ const NAV_BTN = 'absolute top-1/2 -translate-y-1/2 px-4 pt-5 pb-6 text-text opac
         <Transition name="lb-img" mode="out-in">
           <img
             :key="index"
-            :src="images[index].src"
-            :alt="images[index].alt"
+            v-bind="images[index]"
+            decoding="async"
             class="h-auto max-h-[82vh] w-auto max-w-[min(90vw,1200px)] rounded-[3px] object-contain select-none"
           />
         </Transition>
 
         <!-- Prev -->
-        <button :class="[NAV_BTN, 'left-2']" @click="prev" aria-label="Anterior">
+        <button :class="[NAV_BTN, 'left-2']" aria-label="Anterior" @click="prev">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
 
         <!-- Next -->
-        <button :class="[NAV_BTN, 'right-2']" @click="next" aria-label="Siguiente">
+        <button :class="[NAV_BTN, 'right-2']" aria-label="Siguiente" @click="next">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 18 15 12 9 6"/>
           </svg>

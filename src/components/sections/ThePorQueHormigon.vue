@@ -1,15 +1,17 @@
 <script setup>
+import { computed } from 'vue'
 import SectionLabel from '../ui/SectionLabel.vue'
 import FeatureItem  from '../ui/FeatureItem.vue'
 import FeatureCard  from '../ui/FeatureCard.vue'
 import CarouselDots from '../ui/CarouselDots.vue'
-import { POR_QUE }  from '../../data/content.js'
+import { useSiteContent } from '../../composables/useSiteContent.js'
 import { useCarousel } from '../../composables/useCarousel.js'
 
+const { porQue } = useSiteContent()
 const { current, containerRef, onScroll, goTo } = useCarousel(290, 16)
 
 // Desktop: rejilla de dos columnas con dos features cada una
-const DESKTOP_COLUMNS = [POR_QUE.features.slice(0, 2), POR_QUE.features.slice(2, 4)]
+const desktopColumns = computed(() => [porQue.value.features.slice(0, 2), porQue.value.features.slice(2, 4)])
 </script>
 
 <template>
@@ -17,20 +19,20 @@ const DESKTOP_COLUMNS = [POR_QUE.features.slice(0, 2), POR_QUE.features.slice(2,
 
     <!-- Mobile: top image -->
     <div data-reveal="image" class="h-[240px] w-full overflow-hidden md:h-[360px] desktop:hidden">
-      <img data-reveal="zoom" src="/images/hormigon.png" alt="Textura de hormigón artesanal" />
+      <img data-reveal="zoom" v-bind="porQue.imageTop" loading="lazy" decoding="async" />
     </div>
 
     <!-- Mobile header -->
     <div class="flex flex-col gap-2 px-[28px] pt-[28px] pb-[20px] md:px-16 md:pt-10 md:pb-[28px] desktop:hidden">
-      <SectionLabel data-reveal="text" :text="POR_QUE.label" />
-      <h2 data-reveal="text" class="text-[30px] font-extrabold text-text leading-[1.05] whitespace-pre-line md:text-[38px]">{{ POR_QUE.title }}</h2>
+      <SectionLabel data-reveal="text" :text="porQue.label" />
+      <h2 data-reveal="text" class="text-[30px] font-extrabold text-text leading-[1.05] whitespace-pre-line md:text-[38px]">{{ porQue.title }}</h2>
     </div>
 
     <!-- Mobile carousel -->
     <div class="overflow-hidden desktop:hidden">
       <div ref="containerRef" class="scrollbar-none flex snap-x snap-mandatory scroll-pl-[28px] gap-4 overflow-x-auto px-[28px] *:snap-start md:scroll-pl-16 md:px-16" @scroll.passive="onScroll">
         <FeatureCard
-          v-for="f in POR_QUE.features"
+          v-for="f in porQue.features"
           :key="f.title"
           data-reveal="text"
           :number="f.number"
@@ -42,16 +44,16 @@ const DESKTOP_COLUMNS = [POR_QUE.features.slice(0, 2), POR_QUE.features.slice(2,
 
     <!-- Mobile dots -->
     <div data-reveal="fade" class="pt-4 pb-3 md:pt-5 md:pb-4 desktop:hidden">
-      <CarouselDots :total="POR_QUE.features.length" :current="current" @go="goTo" />
+      <CarouselDots :total="porQue.features.length" :current="current" @go="goTo" />
     </div>
 
     <!-- ─── Desktop ─────────────────────────────────────── -->
     <div class="absolute inset-x-0 top-0 hidden h-[548px] flex-col justify-center px-16 py-[60px] desktop:flex">
-      <SectionLabel data-reveal="text" :text="POR_QUE.label" class="mb-[20px]" />
-      <h2 data-reveal="text" class="max-w-[560px] text-[44px] leading-[1.05] font-extrabold whitespace-pre-line text-text">{{ POR_QUE.title }}</h2>
+      <SectionLabel data-reveal="text" :text="porQue.label" class="mb-[20px]" />
+      <h2 data-reveal="text" class="max-w-[560px] text-[44px] leading-[1.05] font-extrabold whitespace-pre-line text-text">{{ porQue.title }}</h2>
       <div class="h-10 shrink-0" />
       <div class="flex flex-1">
-        <div v-for="(column, c) in DESKTOP_COLUMNS" :key="c" class="flex flex-1 flex-col">
+        <div v-for="(column, c) in desktopColumns" :key="c" class="flex flex-1 flex-col">
           <FeatureItem
             v-for="f in column"
             :key="f.title"
@@ -66,7 +68,7 @@ const DESKTOP_COLUMNS = [POR_QUE.features.slice(0, 2), POR_QUE.features.slice(2,
 
     <!-- Desktop: bottom image -->
     <div v-reveal data-reveal="image" class="absolute inset-x-0 bottom-0 hidden h-[168px] overflow-hidden desktop:block reveal-from-left">
-      <img data-reveal="zoom" src="/images/hormigon.png" alt="Textura de hormigón" />
+      <img data-reveal="zoom" v-bind="porQue.imageBottom" loading="lazy" decoding="async" />
     </div>
 
   </section>
