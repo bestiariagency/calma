@@ -13,6 +13,8 @@ const { hero, company, whatsappUrl } = useSiteContent()
   <section id="inicio" class="relative min-h-screen overflow-hidden bg-mid">
     <img class="absolute inset-0" v-bind="hero.image" fetchpriority="high" />
     <div class="absolute inset-0 bg-[linear-gradient(to_bottom,var(--color-mid)_30%,transparent_100%)] md:bg-none md:bg-black/55" />
+    <!-- Degradé superior (solo desktop): envuelve el menú y se desvanece hacia el hero -->
+    <div class="pointer-events-none absolute inset-x-0 top-0 hidden h-[45%] bg-linear-to-b from-darkest/90 via-darkest/40 to-transparent md:block" aria-hidden="true" />
 
     <TheNav :is-menu-open="isOpen" @toggle-menu="toggle" />
 
