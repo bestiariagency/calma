@@ -14,6 +14,6 @@ export default [
       'vue/multi-word-component-names': 'off',
     },
   },
-  { files: ['*.config.js'], languageOptions: { globals: { ...globals.node } } },
+  { files: ['*.config.js', 'scripts/**/*.{js,mjs}'], languageOptions: { globals: { ...globals.node } } },
   prettier,
 ]

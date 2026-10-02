@@ -1,12 +1,18 @@
 import { computed, shallowRef } from 'vue'
 import { buildSiteContent } from '../lib/mergeContent.js'
 import { fetchSiteContent } from '../services/contentService.js'
+import { isNewer, pickFreshest } from '../lib/contentFreshness.js'
 import { readContentCache, writeContentCache } from '../lib/contentCache.js'
 
+// Contenido publicado incluido en el build (prebuild); ausente en dev o si el prebuild falló → null.
+const generatedModules = import.meta.glob('../data/siteContent.generated.json', { eager: true, import: 'default' })
+const generated = Object.values(generatedModules)[0] ?? null
+
 // Estado compartido a nivel de módulo: una sola petición por carga.
-// Seed (content.js) → o caché local → pinta al instante; la BD se fusiona en cuanto llega (petición lanzada desde main.js).
-const cached = readContentCache()
-const content = shallowRef(buildSiteContent(cached?.payload))
+// Parte del contenido del build (o de la caché local si es más nuevo) sobre el seed; la BD solo reemplaza si es más nueva.
+const initialPayload = pickFreshest(generated, readContentCache()?.payload)
+const content = shallowRef(buildSiteContent(initialPayload))
+let currentPayload = initialPayload
 let refreshStarted = false
 
 async function refresh() {
@@ -14,9 +20,11 @@ async function refresh() {
     const payload = await fetchSiteContent()
     if (!payload || typeof payload !== 'object') return
     writeContentCache(payload)
-    if (!cached || payload.updated_at !== cached.updated_at) content.value = buildSiteContent(payload)
+    if (!isNewer(payload, currentPayload)) return
+    currentPayload = payload
+    content.value = buildSiteContent(payload)
   } catch {
-    // Sin errores visibles: se mantiene el seed/caché.
+    // Sin errores visibles: se mantiene el contenido actual.
   }
 }
 
