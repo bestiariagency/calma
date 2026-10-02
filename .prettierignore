@@ -1,0 +1,4 @@
+dist
+node_modules
+example_agents_offslot
+package-lock.json
