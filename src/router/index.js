@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import { adminRoutes } from './adminRoutes.js'
 import { adminGuard } from './adminGuard.js'
+import { isPanelPath } from '../lib/panelError.js'
+import { setPanelError, clearPanelError } from '../composables/admin/usePanelError.js'
 import '../lib/authLinkHint.js' // captura el hash del enlace de recuperación antes de que Supabase lo borre
 
 const ROBOTS_ID = 'route-robots'
@@ -41,6 +43,12 @@ export const router = createRouter({
 const DEFAULT_TITLE = document.title
 
 router.beforeEach(adminGuard)
+// Chunk caducado, guard que falla, envs ausentes…: sin esto la navegación se aborta y la pantalla queda en blanco.
+router.onError((error, to) => {
+  if (isPanelPath(to.path)) setPanelError(error)
+  else console.error(error)
+})
+router.beforeEach(() => clearPanelError())
 router.afterEach(to => {
   setNoindex(Boolean(to.meta.noindex))
   document.title = to.meta.title ?? DEFAULT_TITLE

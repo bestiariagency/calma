@@ -85,3 +85,23 @@ export const adminShellText = {
     retry: 'Reintentar',
   },
 }
+
+// Pantalla de error del panel (envs ausentes, chunk caducado, fallo inesperado).
+export const adminErrorText = {
+  config: {
+    title: 'El panel no está configurado',
+    help: 'Todavía no se puede usar el panel. Avisa a quien mantiene el sitio para que lo revise.',
+    retry: false,
+  },
+  chunk: {
+    title: 'No pudimos cargar el panel',
+    help: 'Es probable que el sitio se haya actualizado mientras lo tenías abierto. Recarga la página para continuar.',
+    retry: true,
+  },
+  unknown: {
+    title: 'Algo salió mal',
+    help: 'No pudimos abrir esta página. Recárgala; si sigue igual, avisa a quien mantiene el sitio.',
+    retry: true,
+  },
+  reload: 'Recargar',
+}
