@@ -160,7 +160,7 @@ Coneja-Lucky en cada etapa de UI y tiene veto visual. El diseño no depende de P
 ### 3.4 Infra (Osset-OP)
 
 - `netlify.toml`: build, SPA fallback, headers de seguridad (nosniff, Referrer-Policy, HSTS,
-  Permissions-Policy, `frame-ancestors 'none'`), CSP (primero Report-Only, después enforce) que
+  Permissions-Policy, `frame-ancestors 'none'`), CSP en enforce (verificada sin violaciones en la Etapa 11) que
   permite sólo `self`, Google Fonts y `lgiajkdvuftvtincbqzi.supabase.co` (https + wss), cache
   inmutable de `/assets/*`.
 - `/administrador/*`: `X-Robots-Tag: noindex, nofollow`, `Cache-Control: no-store`, fuera del sitemap.
@@ -277,7 +277,7 @@ Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__
       seed/caché → RPC en idle tras el primer paint vía import dinámico; si falla, se queda el seed).
 - [x] Router: `/` → `LandingView` (eager); `/administrador/**` lazy con meta noindex; anclas con scroll suave.
 - [x] Secciones y layout leen del composable; crédito Bestiari intacto.
-- [x] `netlify.toml`: build, SPA fallback, headers de seguridad, CSP **Report-Only**, cache (`/assets` immutable,
+- [x] `netlify.toml`: build, SPA fallback, headers de seguridad, CSP (Report-Only en la Etapa 6; enforce desde la Etapa 11), cache (`/assets` immutable,
       `/images` 1 semana, HTML no-cache), `X-Robots-Tag: noindex` + `no-store` en `/administrador` y subrutas.
 - **Resultado:** Búho-Pixel APROBADO (0 mutaciones de DOM y 0 layout-shift al llegar la RPC, layout idéntico a
   1440/390, anclas, lightbox, menú móvil y back OK, consola limpia). Lince-Max: sin regresión (desktop 99, LCP
@@ -288,7 +288,7 @@ Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__
 - **Pendiente del cliente para producción:** envs `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` en Netlify
   (Production + Deploy previews; si faltan, el sitio funciona con el seed pero sin contenido de la BD); Site URL
   y Redirect URLs en Supabase Auth (`/administrador/restablecer` en producción, previews y localhost).
-- **Fase 2:** pasar la CSP a enforce tras revisar la consola en producción.
+- CSP pasada a enforce en la Etapa 11 (sin violaciones).
 
 ### Etapa 7 — Panel: login, shell y kit · *Coneja-Lucky, revisa Búho-Pixel*
 - [x] Kit (`src/components/admin/ui/`): Button (loading con `loadingLabel`), Spinner, Input, Textarea (autosize),

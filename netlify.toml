@@ -21,9 +21,8 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
     Cache-Control = "public, max-age=0, must-revalidate"
-    # CSP en modo Report-Only (sin endpoint): solo para ver violaciones en consola.
-    # Pasar a Content-Security-Policy cuando la consola quede limpia.
-    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://lgiajkdvuftvtincbqzi.supabase.co; connect-src 'self' https://lgiajkdvuftvtincbqzi.supabase.co wss://lgiajkdvuftvtincbqzi.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+    # CSP en enforce (Etapa 11): verificada sin violaciones en landing, lightbox, panel y subida de fotos.
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://lgiajkdvuftvtincbqzi.supabase.co; connect-src 'self' https://lgiajkdvuftvtincbqzi.supabase.co wss://lgiajkdvuftvtincbqzi.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
 
 # Assets con hash: inmutables 1 año
 [[headers]]
