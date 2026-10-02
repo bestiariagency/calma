@@ -113,7 +113,7 @@ Borrarlas no cambia nada de lo que se ve en el sitio, pero **no se puede deshace
 - **Sobrescribir con lo mío:** se publica tu versión y se reemplaza lo que guardó la otra persona.
 - **Cancelar:** sigues editando sin decidir todavía.
 
-Si el problema sigue, avisa a quien mantiene el sitio: **[contacto del desarrollador]**.
+Si el problema sigue, avisa a quien mantiene el sitio.
 
 ## 8. Buenas prácticas
 

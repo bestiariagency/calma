@@ -416,6 +416,9 @@ Migraciones (copiadas en `supabase/migrations/`), aplicadas **sólo** con `mcp__
 | D18 | Permisos de `media` (restringir UPDATE de `created_by/created_at`) | **No se cambia** (2026-10-02): sólo el dueño y el developer administran; se mantienen los permisos aprobados en la Etapa 3. |
 | D19 | Producción | Netlify conectado al repo; dominio `https://tinajas-calma.netlify.app`; envs `VITE_SUPABASE_*` cargadas por el cliente (2026-10-02). |
 | D20 | Permisos por defecto de `pg_net` (no revocables por `postgres`) | **Riesgo aceptado y documentado** (2026-10-02): `net` no está expuesto en la API (PGRST106 verificado); reglas en `supabase/README.md`: nunca exponer `net` ni crear funciones en `public` que lo usen. |
+| D21 | Contacto en la guía y en "Sin acceso" | **Genérico** ("avisa a quien mantiene el sitio"), sin dato concreto (2026-10-02). |
+| D22 | Email `info@calma.es` | Provisional; el dueño lo cambiará desde "Datos de la empresa" (2026-10-02). |
+| D23 | Dominio definitivo y SEO | **Pendiente**: se decidirá en una revisión completa de marketing y SEO (fase 2, Lince-Max). |
 
 ## 7. Registro de cambios
 
