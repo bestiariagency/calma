@@ -16,7 +16,7 @@ Con este panel cambias los textos, las fotos y los datos de contacto de tu sitio
 
 Si el enlace dice que ya no sirve, pulsa «Pedir otro enlace». Cada enlace se puede usar una sola vez.
 
-**Verificación en dos pasos (opcional).** Es una segunda llave: además de tu contraseña, el panel te pide un código de 6 dígitos que cambia cada medio minuto y que ves en una app del celular (por ejemplo, Google Authenticator). Así, nadie entra solo con tu contraseña. El panel no tiene un botón para activarla: pídeselo a quien mantiene el sitio. Cuando esté activa, después de la contraseña verás «Código de verificación»: escribe el código de la app y pulsa **Verificar**.
+**Verificación en dos pasos (opcional).** Es una segunda llave: además de tu contraseña, el panel te pide un código de 6 dígitos que cambia cada medio minuto y que ves en una app del celular (por ejemplo, Google Authenticator). Así, nadie entra solo con tu contraseña. El panel no tiene un botón para activarla: pídeselo al administrador del sitio. Cuando esté activa, después de la contraseña verás «Código de verificación»: escribe el código de la app y pulsa **Verificar**.
 
 ## 2. Recorrido
 
@@ -105,7 +105,7 @@ Borrarlas no cambia nada de lo que se ve en el sitio, pero **no se puede deshace
 | «El correo o la contraseña no son correctos» | Revísalos. Si no los recuerdas, usa «¿Olvidaste tu contraseña?». |
 | «Hiciste demasiados intentos seguidos» | Espera unos segundos y vuelve a intentar. |
 | «Ese formato no sirve» / «La foto pesa demasiado» | Usa una foto JPG, PNG o WebP de hasta 25 MB. |
-| «Sin acceso» o «No tienes permiso para guardar» | Tu cuenta no puede administrar el sitio. Avisa a quien mantiene el sitio. |
+| «Sin acceso» o «No tienes permiso para guardar» | Tu cuenta no puede administrar el sitio. Notifica al administrador del sitio. |
 | «No pudimos cargar el panel» | Pulsa **Recargar**. |
 
 **«Esta página cambió mientras editabas».** Significa que alguien guardó cambios en esa sección después de que tú la abrieras (por ejemplo, desde otra pestaña). Tienes tres opciones:
@@ -113,7 +113,7 @@ Borrarlas no cambia nada de lo que se ve en el sitio, pero **no se puede deshace
 - **Sobrescribir con lo mío:** se publica tu versión y se reemplaza lo que guardó la otra persona.
 - **Cancelar:** sigues editando sin decidir todavía.
 
-Si el problema sigue, avisa a quien mantiene el sitio.
+Si el problema sigue, notifica al administrador del sitio.
 
 ## 8. Buenas prácticas
 

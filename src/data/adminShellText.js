@@ -48,7 +48,7 @@ export const adminAuthText = {
   linkExpired: 'Este enlace ya no sirve: caducó o ya lo usaste. Pide uno nuevo.',
   requestAnotherLink: 'Pedir otro enlace',
   noAccessTitle: 'Sin acceso',
-  noAccessHelp: 'Tu cuenta no tiene permiso para administrar este sitio. Si crees que es un error, pídele acceso a quien administra CALMA.',
+  noAccessHelp: 'Tu cuenta no tiene permiso para administrar este sitio. Si crees que es un error, notifica al administrador del sitio.',
   signOut: 'Cerrar sesión',
   sessionExpiredTitle: 'Tu sesión expiró',
   sessionExpiredHelp: 'Cerramos tu sesión por seguridad. Vuelve a entrar para seguir trabajando.',
@@ -90,7 +90,7 @@ export const adminShellText = {
 export const adminErrorText = {
   config: {
     title: 'El panel no está configurado',
-    help: 'Todavía no se puede usar el panel. Avisa a quien mantiene el sitio para que lo revise.',
+    help: 'Todavía no se puede usar el panel. Notifica al administrador del sitio para que lo revise.',
     retry: false,
   },
   chunk: {
@@ -100,7 +100,7 @@ export const adminErrorText = {
   },
   unknown: {
     title: 'Algo salió mal',
-    help: 'No pudimos abrir esta página. Recárgala; si sigue igual, avisa a quien mantiene el sitio.',
+    help: 'No pudimos abrir esta página. Recárgala; si sigue igual, notifica al administrador del sitio.',
     retry: true,
   },
   reload: 'Recargar',

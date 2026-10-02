@@ -53,7 +53,7 @@ export const adminEditorText = {
     },
     permission: {
       title: 'No tienes permiso para guardar',
-      detail: 'Tu cuenta no puede editar el sitio. Lo que escribiste sigue aquí, pero no se publicó. Avisa a quien administra el panel.',
+      detail: 'Tu cuenta no puede editar el sitio. Lo que escribiste sigue aquí, pero no se publicó. Notifica al administrador del sitio.',
     },
     session: {
       title: 'Tu sesión se cerró',
@@ -109,7 +109,7 @@ export const adminImageText = {
     encode: 'Tu navegador no pudo preparar la foto. Prueba con otro navegador, como Chrome o Safari.',
     tooBig: 'No logramos reducir la foto a menos de 5 MB. Prueba con otra.',
     network: 'No pudimos subir la foto: parece que no hay conexión. Revisa tu internet e inténtalo de nuevo.',
-    permission: 'Tu cuenta no puede cambiar fotos. Avisa a quien administra el panel.',
+    permission: 'Tu cuenta no puede cambiar fotos. Notifica al administrador del sitio.',
     session: 'Tu sesión se cerró. Vuelve a iniciar sesión y sube la foto otra vez.',
     unknown: 'No pudimos subir la foto. Inténtalo de nuevo en un momento.',
   },
@@ -174,7 +174,7 @@ export const adminHistoryText = {
     invalid: { title: 'No se puede volver a esta versión', detail: 'Es una versión antigua y ya no encaja con el sitio actual.' },
     notFound: { title: 'Esa versión ya no existe', detail: 'Se borró del historial. Actualiza la lista y elige otra.' },
     network: { title: 'No se pudo volver a esta versión', detail: 'Parece que no hay conexión. No se cambió nada en el sitio. Inténtalo de nuevo cuando vuelva internet.' },
-    permission: { title: 'Tu cuenta no puede hacer este cambio', detail: 'No tienes permiso para editar el sitio. Avisa a quien administra el panel.' },
+    permission: { title: 'Tu cuenta no puede hacer este cambio', detail: 'No tienes permiso para editar el sitio. Notifica al administrador del sitio.' },
     session: { title: 'Tu sesión se cerró', detail: 'Vuelve a iniciar sesión e inténtalo otra vez. No se cambió nada en el sitio.' },
     unknown: { title: 'No se pudo volver a esta versión', detail: 'Algo falló de nuestro lado. No se cambió nada en el sitio. Inténtalo de nuevo en un momento.' },
   },
@@ -210,7 +210,7 @@ export const adminOrphanText = {
   partial: (deleted, failed, size) =>
     `Se borraron ${deleted} (${size}). No pudimos borrar ${failed}: siguen en la lista para que lo intentes otra vez.`,
   failedTitle: 'No pudimos borrar las fotos',
-  failedBody: 'No se borró ninguna. Revisa tu conexión e inténtalo de nuevo. Si sigue igual, avisa a quien administra el panel.',
+  failedBody: 'No se borró ninguna. Revisa tu conexión e inténtalo de nuevo. Si sigue igual, notifica al administrador del sitio.',
   dismiss: 'Entendido',
 }
 
