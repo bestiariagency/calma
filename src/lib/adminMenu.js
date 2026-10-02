@@ -6,7 +6,7 @@ const COMPANY_KEY = 'company' // tiene pantalla propia (Datos de la empresa)
 
 export const landingKeys = (schema = CONTENT_SCHEMA) => Object.keys(schema).filter(key => key !== COMPANY_KEY)
 export const isLandingSection = (key, schema = CONTENT_SCHEMA) => landingKeys(schema).includes(key)
-export const sectionPath = key => `${BASE}/seccion/${key}`
+const sectionPath = key => `${BASE}/seccion/${key}`
 export const firstSectionPath = (schema = CONTENT_SCHEMA) => sectionPath(landingKeys(schema)[0])
 
 export function buildAdminMenu(schema, text) {

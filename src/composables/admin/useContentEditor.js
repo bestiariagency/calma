@@ -20,7 +20,7 @@ import { useToast } from './useToast.js'
 // Editor de una sección: carga, copia de trabajo, dirty/validación, guardar (= publicar), descartar y conflicto.
 // `keyRef`: clave del esquema (ref/getter). `onInvalid`: la vista enfoca el primer campo inválido.
 // `source`: adaptador de origen de datos (sectionSource | companySource, ver services/editorSources.js).
-export function useSectionEditor(keyRef, { onInvalid, source = sectionSource } = {}) {
+export function useContentEditor(keyRef, { onInvalid, source = sectionSource } = {}) {
   const toast = useToast()
   const fields = computed(() => CONTENT_SCHEMA[keyRef.value]?.fields ?? [])
   const leaves = computed(() => flattenFields(fields.value))

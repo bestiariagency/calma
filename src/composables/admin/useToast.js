@@ -1,7 +1,7 @@
 import { computed, shallowRef } from 'vue'
 
-export const MAX_VISIBLE = 3
-export const DURATIONS = { success: 4000, info: 4000, warning: 6000, error: null } // null = persistente
+const MAX_VISIBLE = 3
+const DURATIONS = { success: 4000, info: 4000, warning: 6000, error: null } // null = persistente
 
 const toasts = shallowRef([])
 const timers = new Map() // id → { handle, remaining, startedAt }

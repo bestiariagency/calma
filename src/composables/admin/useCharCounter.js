@@ -1,6 +1,6 @@
 import { computed, ref, toValue, watch } from 'vue'
 
-export const WARNING_RATIO = 0.9
+const WARNING_RATIO = 0.9
 
 // Función pura: nivel del contador según longitud y máximo ('ok' | 'warning' | 'danger').
 export function getCounterState(count, max) {

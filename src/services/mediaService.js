@@ -3,7 +3,7 @@ import { toError } from './conditionalWrite.js'
 
 const BUCKET = 'site-media'
 
-export const publicMediaUrl = path => supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl
+const publicMediaUrl = path => supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl
 
 // Imágenes del bucket por id: { [media_id]: { url, width, height, bytes, mime } }.
 export async function fetchMediaByIds(ids) {

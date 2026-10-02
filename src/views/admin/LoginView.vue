@@ -6,6 +6,7 @@ import { ADMIN_HOME, safeRedirect } from '../../lib/adminGuard.js'
 import { focusFirstInvalid } from '../../composables/admin/useFocusInvalid.js'
 import { useLoginForm } from '../../composables/admin/useLoginForm.js'
 import AuthCard from '../../components/admin/auth/AuthCard.vue'
+import AuthLink from '../../components/admin/auth/AuthLink.vue'
 import AuthNotice from '../../components/admin/auth/AuthNotice.vue'
 import MfaStep from '../../components/admin/auth/MfaStep.vue'
 import PasswordInput from '../../components/admin/auth/PasswordInput.vue'
@@ -59,12 +60,9 @@ onMounted(login.resumeMfaIfPending)
       <Button type="submit" class="w-full" :loading="loading" :loading-label="t.submittingLogin" :disabled="blocked">
         {{ loading ? t.submittingLogin : t.submitLogin }}
       </Button>
-      <RouterLink
-        :to="{ name: 'admin-reset' }"
-        class="self-center inline-flex min-h-6 items-center rounded-sm px-2 pointer-coarse:min-h-11 text-[13px] text-accent-text underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-      >
+      <AuthLink :to="{ name: 'admin-reset' }">
         {{ t.forgot }}
-      </RouterLink>
+      </AuthLink>
     </form>
   </AuthCard>
 </template>

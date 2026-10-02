@@ -1,7 +1,12 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { fetchSiteContent } from './contentService.js'
 
 const jsonResponse = (body, init = {}) => new Response(typeof body === 'string' ? body : JSON.stringify(body), init)
+
+beforeEach(() => {
+  vi.stubEnv('VITE_SUPABASE_URL', 'https://x.supabase.co')
+  vi.stubEnv('VITE_SUPABASE_ANON_KEY', 'anon')
+})
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -11,8 +16,6 @@ afterEach(() => {
 
 describe('fetchSiteContent', () => {
   it('hace POST a la RPC con apikey y devuelve el JSON', async () => {
-    vi.stubEnv('VITE_SUPABASE_URL', 'https://x.supabase.co')
-    vi.stubEnv('VITE_SUPABASE_ANON_KEY', 'anon')
     const fetchMock = vi.fn().mockResolvedValue(jsonResponse({ updated_at: 't', sections: {} }))
     vi.stubGlobal('fetch', fetchMock)
     await expect(fetchSiteContent()).resolves.toEqual({ updated_at: 't', sections: {} })

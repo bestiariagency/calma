@@ -25,7 +25,7 @@ const year = new Date().getFullYear()
             v-for="link in footer.links"
             :key="link.href"
             :href="link.href"
-            class="text-[12px] text-muted transition-[color] duration-200 ease-[ease] hover:text-text"
+            class="text-[12px] text-muted transition-[color] duration-200 ease-[ease] motion-reduce:transition-none hover:text-text"
           >{{ link.label }}</a>
         </nav>
       </div>

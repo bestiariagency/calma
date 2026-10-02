@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { CONTENT_SCHEMA } from '../../data/contentSchema.js'
 import { SECTION_ANCHORS, adminEditorText as t } from '../../data/adminEditorText.js'
 import { provideEditor } from '../../composables/admin/editorContext.js'
-import { useSectionEditor } from '../../composables/admin/useSectionEditor.js'
+import { useContentEditor } from '../../composables/admin/useContentEditor.js'
 import { focusFirstInvalid } from '../../composables/admin/useFocusInvalid.js'
 import EditorField from '../../components/admin/editor/EditorField.vue'
 import EditorList from '../../components/admin/editor/EditorList.vue'
@@ -16,7 +16,7 @@ const key = computed(() => route.params.key)
 const schema = computed(() => CONTENT_SCHEMA[key.value])
 const page = ref(null)
 
-provideEditor(useSectionEditor(key, { onInvalid: () => focusFirstInvalid(page.value?.$el) }))
+provideEditor(useContentEditor(key, { onInvalid: () => focusFirstInvalid(page.value?.$el) }))
 const siteHref = computed(() => `/${SECTION_ANCHORS[key.value] ?? ''}`)
 </script>
 

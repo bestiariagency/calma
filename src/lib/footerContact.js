@@ -1,6 +1,6 @@
 // Lógica pura: qué piezas del bloque de contacto del footer se muestran (docs/footer-contacto-spec.md).
 // Cada pieza existe solo con dato; los enlaces solo si son https:// (defensa en profundidad: la BD ya lo valida).
-export const SOCIAL_NETWORKS = [
+const SOCIAL_NETWORKS = [
   ['instagram', 'Instagram'],
   ['facebook', 'Facebook'],
   ['tiktok', 'TikTok'],

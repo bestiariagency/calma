@@ -3,7 +3,7 @@ import { CONTENT_SCHEMA } from '../data/contentSchema.js'
 import { landingKeys } from './adminMenu.js'
 import { diffSnapshots, SETTINGS_KEY, sectionLabelOf, summarizeChanges } from './historyDiff.js'
 
-export const PAGE_SIZE = 25
+const PAGE_SIZE = 25
 
 const byNewest = (a, b) => (a.changed_at < b.changed_at ? 1 : a.changed_at > b.changed_at ? -1 : b.id - a.id)
 

@@ -2,13 +2,13 @@
 // Las funciones puras (validación, dimensiones, calidad) se testean; processImage usa APIs del navegador.
 export const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
 export const MAX_INPUT_BYTES = 25 * 1024 * 1024
-export const MAX_OUTPUT_BYTES = 5 * 1024 * 1024 // límite del bucket site-media
-export const MAX_SIDE = 2400
+const MAX_OUTPUT_BYTES = 5 * 1024 * 1024 // límite del bucket site-media
+const MAX_SIDE = 2400
 export const QUALITIES = [0.82, 0.7, 0.58, 0.45]
 export const WEBP = 'image/webp'
 export const JPEG = 'image/jpeg'
 // Fondo al aplanar transparencias para JPEG: el sitio es oscuro, así que `darkest` (#0E0C09) en vez de negro puro/blanco.
-export const JPEG_BACKGROUND = '#0E0C09'
+const JPEG_BACKGROUND = '#0E0C09'
 const OUTPUT_EXTENSIONS = { [WEBP]: 'webp', [JPEG]: 'jpg' }
 
 // HEIC/HEIF no se aceptan en el selector, pero si llegan (arrastrar, Safari) se INTENTA decodificar:

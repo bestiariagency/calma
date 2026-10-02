@@ -28,7 +28,7 @@ function handleAuthEvent(event, next) {
   if (event === 'SIGNED_IN' && next) sessionExpired.value = false
 }
 
-export function initAuth() {
+function initAuth() {
   initPromise ??= (async () => {
     authService.onAuthChange(handleAuthEvent)
     session.value = await authService.getSession()

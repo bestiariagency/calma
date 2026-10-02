@@ -8,6 +8,7 @@ import { focusFirstInvalid } from '../../composables/admin/useFocusInvalid.js'
 import { useResetPassword } from '../../composables/admin/useResetPassword.js'
 import { useToast } from '../../composables/admin/useToast.js'
 import AuthCard from '../../components/admin/auth/AuthCard.vue'
+import AuthLink from '../../components/admin/auth/AuthLink.vue'
 import AuthNotice from '../../components/admin/auth/AuthNotice.vue'
 import PasswordInput from '../../components/admin/auth/PasswordInput.vue'
 import Button from '../../components/admin/ui/Button.vue'
@@ -83,12 +84,9 @@ const requestMessage = computed(() => (requestError.value === 'rateLimit' ? t.er
         </template>
       </Field>
       <Button type="submit" class="w-full" :loading="loading" :loading-label="t.resetSubmitting" :disabled="blocked">{{ loading ? t.resetSubmitting : t.resetSubmit }}</Button>
-      <RouterLink
-        :to="{ name: 'admin-login' }"
-        class="self-center inline-flex min-h-6 items-center rounded-sm px-2 pointer-coarse:min-h-11 text-[13px] text-accent-text underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-      >
+      <AuthLink :to="{ name: 'admin-login' }">
         {{ t.backToLogin }}
-      </RouterLink>
+      </AuthLink>
     </form>
   </AuthCard>
 </template>

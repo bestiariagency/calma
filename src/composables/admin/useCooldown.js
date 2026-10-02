@@ -1,6 +1,6 @@
 import { computed, onBeforeUnmount, ref } from 'vue'
 
-export const RATE_LIMIT_SECONDS = 30
+const RATE_LIMIT_SECONDS = 30
 
 // Cuenta atrás en segundos (bloqueo temporal tras rate limit).
 export function useCooldown() {
